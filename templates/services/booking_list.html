@@ -1,0 +1,64 @@
+{% extends 'base_portal.html' %}
+{% block title %}Conference Hall Bookings{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Conference Hall Bookings</h2>
+
+    <a href="{% url 'halls:create' %}" class="btn btn-primary">
+        + New Booking
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <table class="table table-striped align-middle">
+
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Hall</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Attendees</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            {% for b in bookings %}
+
+                <tr>
+                    <td>{{ b.event_name }}</td>
+                    <td>{{ b.hall.hall_name }}</td>
+                    <td>{{ b.booking_date }}</td>
+                    <td>{{ b.start_time }} - {{ b.end_time }}</td>
+                    <td>{{ b.attendees }}</td>
+                    <td>
+                        <span class="badge bg-secondary">
+                            {{ b.status }}
+                        </span>
+                    </td>
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-4">
+                        No conference hall bookings found.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

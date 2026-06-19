@@ -1,0 +1,436 @@
+{% extends 'base.html' %}
+
+{% block title %}About AIC - CIIC{% endblock %}
+{% block main_class %}container-fluid p-0{% endblock %}
+
+{% block content %}
+
+<section class="about-hero">
+    <div class="container">
+        <h1 class="display-5 fw-bold">About AIC-CIIC</h1>
+        <p class="lead">We support innovators in smart and clean mobility.</p>
+
+        <p>
+            Welcome to AIC-CIIC. We nurture and accelerate innovators building
+            smart and clean mobility solutions through mentorship, research access,
+            industry partnerships, incubation support and startup enablement.
+        </p>
+    </div>
+</section>
+
+<div class="container py-5">
+
+    <!-- WHAT WE DO -->
+
+    <section class="mb-5">
+        <h2 class="mb-4">What We Do</h2>
+
+        <p class="lead">
+            Looking to grow your startup? Connect with our innovation ecosystem!
+        </p>
+
+        <p>
+            For founders who are serious about building, scaling, and refining their ideas,
+            we provide structured support, expert mentorship, and the right environment
+            to move from concept to real-world impact. With guidance, discipline,
+            and consistent execution, your vision becomes achievable.
+        </p>
+
+        <div class="row g-3 mt-3">
+
+            <div class="col-md-6">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+                        <h5>Structured Support</h5>
+                        <p class="text-muted mb-0">
+                            Structured support to turn ideas into reality.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+                        <h5>Expert Mentorship</h5>
+                        <p class="text-muted mb-0">
+                            Expert mentorship for strategy, technology and growth.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+                        <h5>Resources & Validation</h5>
+                        <p class="text-muted mb-0">
+                            Resources to refine, validate and scale solutions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+                        <h5>Innovation Ecosystem</h5>
+                        <p class="text-muted mb-0">
+                            Access to a thriving innovation ecosystem.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+
+    <section class="mb-5">
+        <h2 class="mb-4">Our Services</h2>
+
+        <div class="row g-3">
+
+            {% for svc in services %}
+            <div class="col-md-4">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+                        <h5>{{ svc.title }}</h5>
+                        <p class="text-muted">{{ svc.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+
+            <div class="col-md-4">
+                <div class="card stat-card h-100 text-center">
+                    <div class="card-body">
+                        <h5>Money</h5>
+                        <p>Funding & Grant Support</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stat-card h-100 text-center">
+                    <div class="card-body">
+                        <h5>Machinery</h5>
+                        <p>Lab & Infrastructure Access</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stat-card h-100 text-center">
+                    <div class="card-body">
+                        <h5>Mentor</h5>
+                        <p>Expert Startup Guidance</p>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <!-- PROCESS -->
+
+    <section class="mb-5">
+        <h2 class="mb-4">Our Process</h2>
+
+        <div class="timeline">
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-content">
+                    <h5>Idea Nurturing</h5>
+
+                    <p class="mb-0">
+                        We help innovators refine and validate ideas
+                        with expert guidance.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-content">
+                    <h5>Market & Tech Insights</h5>
+
+                    <p class="mb-0">
+                        Data-driven support to assess feasibility,
+                        impact and scalability.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-content">
+                    <h5>Startup Enablement</h5>
+
+                    <p class="mb-0">
+                        Hands-on mentoring and resources to turn ideas
+                        into solutions.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+
+    <section class="mb-5">
+        <h2 class="mb-4">Why Choose Us?</h2>
+
+        <p>
+            AIC-CIIC provides a strong foundation for startups building
+            solutions in smart and clean mobility.
+        </p>
+
+        <div class="row g-3 mt-3">
+
+            <div class="col-md-4">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+                        <h5>Innovation-Driven Ecosystem</h5>
+                        <p class="mb-0">
+                            We offer a collaborative environment that nurtures creativity, experimentation, and scalable innovation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+                        <h5>Expert Mentorship</h5>
+                        <p class="mb-0">
+                            Startups gain access to experienced mentors from industry, academia, and the startup ecosystem.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+                        <h5>Industry Connect</h5>
+
+                        <p class="mb-0">
+                            Strong partnerships with corporates,
+                            research institutions and investors enable
+                            real-world validation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- VISION MISSION -->
+
+    <section class="mb-5">
+
+        <h2 class="mb-3">Where Vision Meets Mission</h2>
+
+        <p>
+            We guide startups through a structured journey that turns ideas
+            into impactful, real-world solutions.
+        </p>
+
+        <div class="row g-4 mt-2">
+
+            <div class="col-md-6">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+
+                        <h4>Vision</h4>
+
+                        <p>
+                            To become India's premier catalyst for smart and clean
+                            mobility innovation, empowering entrepreneurs to build
+                            sustainable, future-ready smart solutions that transform
+                            industries, uplift communities and drive global competitiveness.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+
+                        <h4>Mission</h4>
+
+                        <p>
+                            To nurture and accelerate high-potential startups in the
+                            smart and clean mobility sector by providing world-class
+                            incubation support, cutting-edge research access and technology,
+                            strategic mentorship, industry partnerships and go-to-market
+                            opportunities empowering innovators to drive India's transition
+                            toward a smart, sustainable and connected mobility ecosystem.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SMART MOBILITY -->
+
+    <section class="text-center py-5">
+
+        <h2>Smart & Clean Mobility</h2>
+
+        <h4 class="text-muted">
+            Sustainability for Futuristic Mobility
+        </h4>
+
+    </section>
+
+    <!-- CHENNAI -->
+
+    <section class="mb-5">
+
+        <h2>Chennai, Tamil Nadu</h2>
+
+        <h3 class="mb-4">
+            Tamil Nadu's Gateway to Mobility & Innovation
+        </h3>
+
+        <div class="row g-3">
+
+            <div class="col-md-4">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+
+                        <h5>Strategic Location</h5>
+
+                        <p>
+                            Chennai is a major hub for mobility,
+                            manufacturing and technology, offering strong
+                            industry and academic ecosystems.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+
+                        <h5>Innovation Ecosystem</h5>
+
+                        <p>
+                            Access to research institutions, startups,
+                            investors and policy support essential for
+                            innovation growth.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+
+                        <h5>Industry Connectivity</h5>
+
+                        <p>
+                            Proximity to automotive leaders, clean-tech
+                            companies and logistics networks enables
+                            faster collaboration and validation.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+<section class="py-5">
+
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Gallery</h2>
+        <p class="lead text-muted">
+            Explore our facilities, startup activities, innovation events and incubation ecosystem.
+        </p>
+    </div>
+
+    <div class="gallery-dual-rows">
+
+        <div class="gallery-row scroll-left">
+
+            {% for item in row1 %}
+
+            <div class="gallery-card">
+
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                {% else %}
+                    <div class="placeholder-img d-flex align-items-center justify-content-center bg-primary text-white">
+                        <i class="bi bi-image fs-1"></i>
+                    </div>
+                {% endif %}
+
+                <div class="card-body">
+                    <h6 class="fw-bold">{{ item.title }}</h6>
+                    <small class="text-muted">
+                        {{ item.description|truncatewords:10 }}
+                    </small>
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="gallery-row scroll-right">
+
+            {% for item in row2 %}
+
+            <div class="gallery-card">
+
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                {% else %}
+                    <div class="placeholder-img d-flex align-items-center justify-content-center bg-secondary text-white">
+                        <i class="bi bi-image fs-1"></i>
+                    </div>
+                {% endif %}
+
+                <div class="card-body">
+                    <h6 class="fw-bold">{{ item.title }}</h6>
+                    <small class="text-muted">
+                        {{ item.description|truncatewords:10 }}
+                    </small>
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

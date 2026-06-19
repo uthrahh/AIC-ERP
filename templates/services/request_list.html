@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Service Requests</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Startup</th>
+        <th>Service</th>
+        <th>Status</th>
+    </tr>
+
+    {% for request in requests %}
+    <tr>
+        <td>{{ request.id }}</td>
+        <td>{{ request.startup }}</td>
+        <td>{{ request.service_type }}</td>
+        <td>{{ request.status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}F

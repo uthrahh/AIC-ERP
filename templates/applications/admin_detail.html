@@ -1,0 +1,36 @@
+{% extends 'base_portal.html' %}
+{% block title %}Review Application #{{ application.pk }}{% endblock %}
+{% block content %}
+<div class="no-print">
+<h1>Review: {{ application.startup_name }} <a href="{% url 'applications:admin_print' application.pk %}" class="btn btn-sm btn-outline-dark" target="_blank">Print</a></h1>
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card stat-card"><div class="card-body">
+            <h5>Application Details</h5>
+            <p><strong>Founder:</strong> {{ application.founder_name }}</p>
+            <p><strong>Email:</strong> {{ application.email }}</p>
+            <p><strong>Contact:</strong> {{ application.contact_number }}</p>
+            <p><strong>Address:</strong> {{ application.building_name }}, {{ application.street }}, {{ application.city }} {{ application.pincode }}</p>
+            <p><strong>Problem:</strong> {{ application.problem_statement }}</p>
+            <p><strong>Solution:</strong> {{ application.solution }}</p>
+            <p><strong>Support:</strong> {{ application.services_required_display }}</p>
+            <p><strong>Referred by:</strong> {{ application.reference_source|default:"—" }}</p>
+            <p><strong>Status:</strong> {{ application.status }}</p>
+            <p><strong>Submitted:</strong> {{ application.timestamp|date:"M d, Y H:i" }}</p>
+        </div></div>
+    </div>
+    <div class="col-md-6">
+        <div class="card stat-card"><div class="card-body">
+            <h5>Selection Committee Review</h5>
+            <form method="post">{% csrf_token %}
+                <div class="mb-2"><label class="form-label">Status</label>
+                    <select name="status" class="form-select">{% for v,l in status_choices %}<option value="{{ v }}" {% if current_status == v %}selected{% endif %}>{{ l }}</option>{% endfor %}</select>
+                </div>
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Save Review</button>
+            </form>
+        </div></div>
+    </div>
+</div>
+</div>
+{% endblock %}

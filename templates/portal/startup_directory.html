@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Startups{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+
+<section class="mb-5 rounded-4 p-5 text-white"
+style="
+background:
+linear-gradient(rgba(0,0,0,.60),rgba(0,0,0,.60)),
+url('/static/img/startup-banner.jpg');
+background-size:cover;
+background-position:center;
+min-height:320px;
+display:flex;
+align-items:center;">
+
+<div>
+    <h1 class="display-3 fw-bold">Our Startups</h1>
+    <p class="lead mb-0">
+        Discover innovative startups incubated under AIC-CIIC and driving the future of Smart & Clean Mobility.
+    </p>
+</div>
+
+</section>
+
+<!-- DASHBOARD -->
+
+<h2 class="fw-bold mb-4">
+Startup Impact Dashboard
+</h2>
+
+<!-- FIRST ROW -->
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <a href="#directory" class="text-decoration-none text-dark">
+            <div class="card stat-card text-center p-3 h-100">
+                <h3>₹{{ govt_grants|floatformat:0 }}</h3>
+                <small>Govt & CSR Grants</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="#directory" class="text-decoration-none text-dark">
+            <div class="card stat-card text-center p-3 h-100">
+                <h3>₹{{ private_investment|floatformat:0 }}</h3>
+                <small>Private Investments</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="#directory" class="text-decoration-none text-dark">
+            <div class="card stat-card text-center p-3 h-100">
+                <h3>{{ awards_count }}</h3>
+                <small>Awards Won</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="#directory" class="text-decoration-none text-dark">
+            <div class="card stat-card text-center p-3 h-100">
+                <h3>{{ active_count }}</h3>
+                <small>Active Startups</small>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+<div class="row g-3 mb-5">
+
+    <div class="col-md-2">
+        <a href="#directory" class="text-decoration-none text-dark">
+            <div class="card stat-card text-center p-3 h-100">
+                <h4>{{ jobs_created }}</h4>
+                <small>Jobs Created</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-2">
+        <a href="#directory" class="text-decoration-none text-dark">
+            <div class="card stat-card text-center p-3 h-100">
+                <h4>₹{{ total_valuation|floatformat:0 }}</h4>
+                <small>Valuation</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-2">
+        <a href="#directory" class="text-decoration-none text-dark">
+            <div class="card stat-card text-center p-3 h-100">
+                <h4>₹{{ sales_turnover|floatformat:0 }}</h4>
+                <small>Sales Turnover</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-2">
+        <a href="#directory" class="text-decoration-none text-dark">
+            <div class="card stat-card text-center p-3 h-100">
+                <h4>₹{{ funds_raised|floatformat:0 }}</h4>
+                <small>Funds Raised</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-2">
+        <a href="#directory" class="text-decoration-none text-dark">
+            <div class="card stat-card text-center p-3 h-100">
+                <h4>{{ graduated_count }}</h4>
+                <small>Graduated</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-2">
+        <a href="#directory" class="text-decoration-none text-dark">
+            <div class="card stat-card text-center p-3 h-100">
+                <h4>{{ incubated_total }}</h4>
+                <small>Total Incubated</small>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+<!-- CHARTS -->
+
+<div class="row g-4 mb-5">
+
+<div class="col-lg-4">
+<div class="card shadow-sm">
+<div class="card-body">
+<h5>Startups by Sector</h5>
+<canvas id="sectorChart"></canvas>
+</div>
+</div>
+</div>
+
+<div class="col-lg-4">
+<div class="card shadow-sm">
+<div class="card-body">
+<h5>Funding Sources</h5>
+<canvas id="fundingChart"></canvas>
+</div>
+</div>
+</div>
+
+<div class="col-lg-4">
+<div class="card shadow-sm">
+<div class="card-body">
+<h5>Startup Status</h5>
+<canvas id="statusChart"></canvas>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- OVERVIEW -->
+ <div class="col-lg-6">
+    <a href="#directory" class="text-decoration-none text-dark">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+
+                <h5>IPR Portfolio</h5>
+
+                <ul class="list-group">
+
+                    <li class="list-group-item">
+                        Patents : {{ ipr_counts.patents }}
+                    </li>
+
+                    <li class="list-group-item">
+                        Trademarks : {{ ipr_counts.trademarks }}
+                    </li>
+
+                    <li class="list-group-item">
+                        Copyrights : {{ ipr_counts.copyrights }}
+                    </li>
+
+                    <li class="list-group-item">
+                        Design Rights : {{ ipr_counts.design_rights }}
+                    </li>
+
+                    <li class="list-group-item">
+                        Trade Secrets : {{ ipr_counts.trade_secrets }}
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </a>
+</div>
+<div id="directory"></div>
+<div class="col-lg-6">
+    <a href="#directory" class="text-decoration-none text-dark">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+
+                <h5>Incubation Centre Overview</h5>
+
+                <p><strong>Built-up Area:</strong> {{ builtup_area }}</p>
+                <p><strong>Partnerships:</strong> {{ partnerships }}</p>
+                <p><strong>Total Incubated:</strong> {{ incubated_total }}</p>
+                <p><strong>Mentorship Sessions:</strong> {{ mentorship_sessions }}</p>
+                <p><strong>Events:</strong> {{ hall_events }}</p>
+                <p><strong>Lab Sessions:</strong> {{ lab_sessions }}</p>
+
+            </div>
+        </div>
+    </a>
+</div>
+
+<!-- DIRECTORY -->
+<div id="directory"></div>
+
+<h2 class="fw-bold mb-4">
+    Startup Directory
+</h2>
+
+<form method="get" class="mb-4">
+
+<div class="input-group input-group-lg">
+
+<span class="input-group-text">
+<i class="bi bi-search"></i>
+</span>
+
+<input
+type="text"
+name="q"
+value="{{ search }}"
+class="form-control"
+placeholder="Search startups...">
+
+</div>
+
+</form>
+
+<div class="row">
+
+{% for startup in startups %}
+
+<div class="col-md-6 col-xl-4 mb-4">
+
+<div class="card h-100 shadow-sm border-0">
+
+{% if startup.logo %}
+<img src="{{ startup.logo.url }}"
+class="card-img-top"
+style="height:220px;object-fit:cover;">
+{% endif %}
+
+<div class="card-body">
+
+<span class="badge bg-primary mb-2">
+{{ startup.sector }}
+</span>
+
+<h5 class="fw-bold">
+{{ startup.brand_name }}
+</h5>
+
+<p class="small text-muted">
+{{ startup.company_description|truncatewords:20 }}
+</p>
+
+</div>
+
+<div class="card-footer bg-white border-0">
+
+<a href="{% url 'startups:public_detail' startup.pk %}"
+class="btn btn-outline-primary w-100">
+View Startup
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="col-12">
+<div class="alert alert-info">
+No startups found.
+</div>
+</div>
+
+{% endfor %}
+
+</div>
+
+<script>
+
+const sectorData = {{ sector_data_json|safe }};
+
+new Chart(
+document.getElementById('sectorChart'),
+{
+type:'doughnut',
+data:{
+labels:sectorData.map(x=>x.sector),
+datasets:[{
+data:sectorData.map(x=>x.count)
+}]
+}
+}
+);
+
+new Chart(
+document.getElementById('fundingChart'),
+{
+type:'bar',
+data:{
+labels:['Govt Grants','Private Investment'],
+datasets:[{
+data:[
+{{ govt_grants }},
+{{ private_investment }}
+]
+}]
+}
+}
+);
+
+new Chart(
+document.getElementById('statusChart'),
+{
+type:'pie',
+data:{
+labels:['Active','Graduated'],
+datasets:[{
+data:[
+{{ active_count }},
+{{ graduated_count }}
+]
+}]
+}
+}
+);
+
+</script>
+
+{% endblock %}

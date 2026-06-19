@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Record Payment{% endblock %}
+{% block content %}
+<h1>Record Payment — {{ invoice.invoice_number }}</h1>
+<p>Balance due: ₹{{ invoice.balance_due }}</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-primary">Record</button></form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base_portal.html' %}
+{% block title %}Mentor Portal{% endblock %}
+{% block page_title %}Welcome, {{ mentor.mentor_name }}{% endblock %}
+{% block content %}
+<p class="text-muted">Mentor ID: {{ mentor.mentor_id }}</p>
+<div class="row g-4 mb-4">
+    <div class="col-md-4"><div class="card stat-card text-center p-3"><h4>{{ upcoming }}</h4><small>Upcoming Sessions</small></div></div>
+    <div class="col-md-4"><div class="card stat-card text-center p-3"><h4>{{ completed }}</h4><small>Completed</small></div></div>
+    <div class="col-md-4"><div class="card stat-card text-center p-3"><h4>₹{{ mentor.charges }}</h4><small>Session Charge</small></div></div>
+</div>
+<div class="card stat-card"><div class="card-body">
+    <h5>Recent Sessions</h5>
+    <table class="table table-sm"><thead><tr><th>Startup</th><th>Date</th><th>Status</th></tr></thead>
+    <tbody>{% for s in recent_sessions %}<tr><td>{{ s.startup.brand_name }}</td><td>{{ s.session_date }}</td><td>{{ s.status }}</td></tr>{% empty %}<tr><td colspan="3" class="text-muted">No sessions yet.</td></tr>{% endfor %}</tbody></table>
+</div></div>
+{% endblock %}

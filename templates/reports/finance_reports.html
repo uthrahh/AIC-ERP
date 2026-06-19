@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Finance Reports{% endblock %}
+{% block content %}
+<h1>Finance Reports</h1>
+<p>Invoices: {{ invoices_generated }} | Invoiced: ₹{{ total_invoiced|floatformat:0 }} | Received: ₹{{ total_received|floatformat:0 }} | Outstanding: ₹{{ outstanding|floatformat:0 }}</p>
+{% endblock %}

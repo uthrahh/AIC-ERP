@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Invoices - Admin{% endblock %}
+{% block content %}
+<h1>Invoices <a href="{% url 'finance:admin_invoice_create' %}" class="btn btn-primary btn-sm">+ Create</a></h1>
+<table class="table table-hover bg-white shadow-sm"><thead><tr><th>#</th><th>Startup</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+<tbody>{% for i in invoices %}<tr><td>{{ i.invoice_number }}</td><td>{{ i.startup.brand_name }}</td><td>₹{{ i.amount }}</td><td>{{ i.status }}</td><td><a href="{% url 'finance:admin_payment_record' i.pk %}">Record Payment</a></td></tr>{% endfor %}</tbody></table>
+{% endblock %}

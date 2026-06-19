@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Public Dashboard - AIC-CIIC{% endblock %}
+{% block content %}
+<h1 class="mb-4">Incubation Dashboard</h1>
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="card stat-card text-center p-3"><h3>₹{{ govt_grants|floatformat:0 }}</h3><small class="text-muted">Govt &amp; CSR Grants</small></div></div>
+    <div class="col-md-3"><div class="card stat-card text-center p-3"><h3>₹{{ private_investment|floatformat:0 }}</h3><small class="text-muted">Private Investments</small></div></div>
+    <div class="col-md-3"><div class="card stat-card text-center p-3"><h3>{{ awards_count }}</h3><small class="text-muted">Awards</small></div></div>
+    <div class="col-md-3"><div class="card stat-card text-center p-3"><h3>{{ active_count }}</h3><small class="text-muted">Active Startups</small></div></div>
+</div>
+<h4 class="mb-3">Startup Statistics</h4>
+<div class="row g-3 mb-4">
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>{{ jobs_created }}</h4><small>Jobs Created</small></div></div>
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>₹{{ total_valuation|floatformat:0 }}</h4><small>Valuation</small></div></div>
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>₹{{ sales_turnover|floatformat:0 }}</h4><small>Sales Turnover</small></div></div>
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>₹{{ funds_raised|floatformat:0 }}</h4><small>Funds Raised</small></div></div>
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>{{ graduated_count }}</h4><small>Graduated</small></div></div>
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>{{ incubated_total }}</h4><small>Incubated Total</small></div></div>
+</div>
+<h4 class="mb-3">Meetings Breakdown</h4>
+<div class="row g-3 mb-4">
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>{{ mentorship_sessions }}</h4><small>Mentorship</small></div></div>
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>{{ hall_events }}</h4><small>Events</small></div></div>
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>{{ workshops }}</h4><small>Workshops</small></div></div>
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>{{ networking_meetings }}</h4><small>Networking</small></div></div>
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>{{ lab_sessions }}</h4><small>Lab Sessions</small></div></div>
+    <div class="col-md-2"><div class="card stat-card text-center p-3"><h4>{{ total_meetings }}</h4><small>Total Meetings</small></div></div>
+</div>
+<div class="row g-4 mb-4">
+    <div class="col-md-4"><div class="card stat-card p-3"><h5>Site Details</h5><p class="mb-1"><strong>Built-up Area:</strong> {{ builtup_area|floatformat:0 }} sq.ft</p><p class="mb-1"><strong>Partnerships:</strong> {{ partnerships }}</p><p class="mb-0"><strong>Startups Incubated:</strong> {{ incubated_total }}</p></div></div>
+    <div class="col-md-4"><div class="card stat-card p-3"><h5>IPR Breakdown</h5><p class="mb-1">Patents: {{ ipr_counts.patents }} | Trademarks: {{ ipr_counts.trademarks }}</p><p class="mb-1">Copyrights: {{ ipr_counts.copyrights }} | Design Rights: {{ ipr_counts.design_rights }}</p><p class="mb-0">Trade Secrets: {{ ipr_counts.trade_secrets }} | Total: {{ ipr_counts.total }}</p></div></div>
+    <div class="col-md-4"><div class="card stat-card"><div class="card-body"><h5>Startups by Sector</h5><canvas id="sectorChart" height="180"></canvas><canvas id="fundingChart"></canvas><canvas id="startupStatusChart"></canvas></div></div></div>
+</div>
+{% if sponsors %}
+<h4 class="mb-3">Partners &amp; Sponsors</h4>
+<div class="row g-3">{% for sp in sponsors %}<div class="col-md-3"><div class="card text-center p-3 stat-card"><strong>{{ sp.name }}</strong></div></div>{% endfor %}</div>
+{% endif %}
+{% endblock %}
+{% block extra_js %}
+<script>
+const sectorData = {{ sector_data_json|safe }};
+if (sectorData.length) {
+    new Chart(document.getElementById('sectorChart'), {
+        type: 'doughnut',
+        data: { labels: sectorData.map(d => d.sector), datasets: [{ data: sectorData.map(d => d.count), backgroundColor: ['#1a5276','#2980b9','#3498db','#5dade2','#85c1e9'] }] }
+    });
+} else {
+    new Chart(document.getElementById('sectorChart'), { type: 'doughnut', data: { labels: ['Mobility','HealthTech','CleanTech','Other'], datasets: [{ data: [40,25,20,15] }] } });
+}
+</script>
+{% endblock %}

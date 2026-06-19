@@ -1,0 +1,35 @@
+{% extends 'base_portal.html' %}
+{% block title %}Startup Portal - AIC-CIIC{% endblock %}
+{% block page_title %}Welcome, {{ startup.brand_name }}{% endblock %}
+{% block content %}
+<p class="text-muted">Startup ID: {{ startup.startup_code }}</p>
+<div class="row g-4 mb-4">
+    <div class="col-md-3"><div class="card stat-card text-center p-3 border-warning"><h4>{{ open_requests }}</h4><small>Open Service Requests</small></div></div>
+    <div class="col-md-3"><div class="card stat-card text-center p-3 border-danger"><h4>{{ pending_payments }}</h4><small>Pending Payments</small></div></div>
+    <div class="col-md-3"><div class="card stat-card text-center p-3 border-info"><h4>{{ upcoming_labs|add:upcoming_halls }}</h4><small>Upcoming Bookings</small></div></div>
+    <div class="col-md-3"><div class="card stat-card text-center p-3"><h4>₹{{ outstanding|floatformat:0 }}</h4><small>Outstanding Dues</small></div></div>
+</div>
+<div class="card stat-card"><div class="card-body">
+    <h5>Actions Required</h5>
+    <ul class="list-group list-group-flush">
+        {% if open_requests %}<li class="list-group-item"><a href="{% url 'services:list' %}">{{ open_requests }} open service request(s)</a></li>{% endif %}
+        {% if pending_payments %}<li class="list-group-item"><a href="{% url 'finance:billing' %}">{{ pending_payments }} pending payment(s)</a></li>{% endif %}
+        {% if upcoming_labs %}<li class="list-group-item"><a href="{% url 'labs:list' %}">{{ upcoming_labs }} upcoming lab booking(s)</a></li>{% endif %}
+        {% if upcoming_halls %}<li class="list-group-item"><a href="{% url 'halls:list' %}">{{ upcoming_halls }} upcoming hall booking(s)</a></li>{% endif %}
+        {% if not open_requests and not pending_payments and not upcoming_labs and not upcoming_halls %}
+        <li class="list-group-item text-muted">No pending actions. You're all caught up!</li>
+        {% endif %}
+    </ul>
+</div></div>
+<div class="card stat-card mt-4"><div class="card-body">
+    <h5>Latest Services</h5>
+    <table class="table table-sm">
+        <thead><tr><th>Type</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for r in recent_services %}
+        <tr><td>{{ r.service_type }}</td><td><span class="badge bg-secondary">{{ r.status }}</span></td><td>{{ r.created_at|date:"M d, Y" }}</td></tr>
+        {% empty %}<tr><td colspan="3" class="text-muted">No service requests yet.</td></tr>{% endfor %}
+        </tbody>
+    </table>
+</div></div>
+{% endblock %}

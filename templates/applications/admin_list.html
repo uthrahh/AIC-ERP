@@ -1,0 +1,17 @@
+{% extends 'base_portal.html' %}
+{% block title %}Applications - Admin{% endblock %}
+{% block content %}
+<h1>Applications</h1>
+<form method="get" class="row g-2 mb-3">
+    <div class="col-auto"><select name="status" class="form-select"><option value="">All Status</option>{% for v,l in statuses %}<option value="{{ v }}" {% if status_filter == v %}selected{% endif %}>{{ l }}</option>{% endfor %}</select></div>
+    <div class="col-auto"><button class="btn btn-primary">Filter</button></div>
+</form>
+<table class="table table-hover bg-white rounded shadow-sm">
+    <thead><tr><th>ID</th><th>Startup</th><th>Founder</th><th>Support Required</th><th>Status</th><th>Date</th><th></th></tr></thead>
+    <tbody>
+    {% for a in applications %}
+    <tr><td>{{ a.pk }}</td><td>{{ a.startup_name }}</td><td>{{ a.founder_name }}</td><td>{{ a.services_required_display|truncatechars:40 }}</td><td><span class="badge bg-info">{{ a.status }}</span></td><td>{{ a.timestamp|date:"M d, Y" }}</td><td><a href="{% url 'applications:admin_detail' a.pk %}">Review</a></td></tr>
+    {% empty %}<tr><td colspan="7" class="text-muted">No applications.</td></tr>{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

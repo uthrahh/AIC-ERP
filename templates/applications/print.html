@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Print Application{% endblock %}
+{% block content %}
+<div class="print-only"><h2>AIC-CIIC Startup Application</h2></div>
+<h1 class="no-print">Print Preview <button onclick="window.print()" class="btn btn-primary btn-sm">Print</button></h1>
+<table class="table table-bordered">
+    <tr><th>Application ID</th><td>{{ application.pk }}</td><th>Date</th><td>{{ application.timestamp }}</td></tr>
+    <tr><th>Founder</th><td colspan="3">{{ application.founder_name }}</td></tr>
+    <tr><th>Startup</th><td colspan="3">{{ application.startup_name }}</td></tr>
+    <tr><th>Address</th><td colspan="3">{{ application.building_name }}, {{ application.street }}, {{ application.area }}, {{ application.city }}, {{ application.state }} — {{ application.pincode }}</td></tr>
+    <tr><th>Contact</th><td>{{ application.contact_number }}</td><th>Email</th><td>{{ application.email }}</td></tr>
+    <tr><th>Support Required</th><td colspan="3">{{ application.services_required_display }}</td></tr>
+    <tr><th>Referred By</th><td colspan="3">{{ application.reference_source|default:"—" }}</td></tr>
+    <tr><th>Problem</th><td colspan="3">{{ application.problem_statement }}</td></tr>
+    <tr><th>Solution</th><td colspan="3">{{ application.solution }}</td></tr>
+    {% if review %}
+    <tr><th>Innovation</th><td>{{ review.innovation_score }}</td><th>Commercialization</th><td>{{ review.commercialization_score }}</td></tr>
+    <tr><th>Feasibility</th><td>{{ review.feasibility_score }}</td><th>HOD</th><td>{{ review.hod_name }} ({{ review.department }})</td></tr>
+    <tr><th>Comments</th><td colspan="3">{{ review.comments }}</td></tr>
+    {% endif %}
+</table>
+<div class="row mt-5">
+    <div class="col-4"><div class="signature-line">Startup Founder Signature</div></div>
+    <div class="col-4"><div class="signature-line">Incubation HOD Signature</div></div>
+    <div class="col-4"><div class="signature-line">CTO Signature</div></div>
+</div>
+{% endblock %}

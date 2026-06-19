@@ -1,0 +1,54 @@
+{% extends 'base_portal.html' %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+<h1>{{ startup.brand_name }} <small class="text-muted">ID: {{ startup.startup_code }}</small></h1>
+<div class="mb-3">
+    <a href="{% url 'startups:profile_edit' %}" class="btn btn-sm btn-outline-primary">Edit Profile</a>
+    <a href="{% url 'startups:document_upload' %}" class="btn btn-sm btn-outline-secondary">Upload Document</a>
+    <a href="{% url 'accounts:change_password' %}" class="btn btn-sm btn-outline-secondary">Change Password</a>
+</div>
+<div class="row g-4">
+    <div class="col-md-8">
+        <div class="card stat-card mb-3"><div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6"><strong>Legal Name:</strong> {{ startup.legal_name|default:"—" }}</div>
+                <div class="col-md-6"><strong>Sector:</strong> {{ startup.sector|default:"—" }} / {{ startup.sub_sector|default:"—" }}</div>
+                <div class="col-md-6"><strong>Status:</strong> <span class="badge bg-{% if startup.startup_status == 'active' %}success{% elif startup.startup_status == 'graduated' %}primary{% else %}secondary{% endif %}">{{ startup.get_startup_status_display }}</span></div>
+                <div class="col-md-6"><strong>Incubation:</strong> {{ startup.get_incubation_type_display }}</div>
+                <div class="col-md-6"><strong>TRL:</strong> {{ startup.trl_level|default:"—" }} | <strong>SRL:</strong> {{ startup.startup_readiness_level|default:"—" }}</div>
+                <div class="col-md-6"><strong>Funding Stage:</strong> {{ startup.funding_stage|default:"—" }}</div>
+            </div>
+            <hr>
+            <p>{{ startup.company_description|default:"No description." }}</p>
+            {% if startup.website %}<p><a href="{{ startup.website }}" target="_blank">Website</a></p>{% endif %}
+        </div></div>
+        <h5>Founders</h5>
+        <a
+            href="{% url 'startups:founder_create' %}"
+            class="btn btn-primary btn-sm">
+            + Add Founder
+        </a>
+        <table class="table table-sm bg-white"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>POC</th></tr></thead>
+        <tbody>{% for f in startup.founders.all %}<tr><td>{{ f.founder_name }}</td><td>{{ f.email }}</td><td>{{ f.phone }}</td><td>{% if f.is_primary_poc %}Primary{% elif f.is_secondary_poc %}Secondary{% else %}—{% endif %}</td></tr>{% empty %}<tr><td colspan="4" class="text-muted">No founders listed.</td></tr>{% endfor %}</tbody></table>
+        <h5>Service History</h5>
+        <table class="table table-sm bg-white"><thead><tr><th>Service</th><th>Closed</th></tr></thead>
+        <tbody>{% for r in service_logs %}<tr><td>{{ r.service_type }}</td><td>{{ r.closed_at|date:"M d, Y" }}</td></tr>{% empty %}<tr><td colspan="2" class="text-muted">None</td></tr>{% endfor %}</tbody></table>
+        <h5>Lab Booking History</h5>
+        <table class="table table-sm bg-white"><thead><tr><th>Lab</th><th>Date</th><th>Status</th></tr></thead>
+        <tbody>{% for b in lab_history %}<tr><td>{{ b.lab.lab_name }}</td><td>{{ b.requested_date }}</td><td>{{ b.status }}</td></tr>{% empty %}<tr><td colspan="3" class="text-muted">None</td></tr>{% endfor %}</tbody></table>
+    </div>
+    <div class="col-md-4">
+        <h5>Documents</h5>
+        <ul class="list-group mb-3">{% for d in documents %}<li class="list-group-item"><a href="{{ d.file.url }}" target="_blank">{{ d.document_name }}</a></li>{% empty %}<li class="list-group-item text-muted">No documents</li>{% endfor %}</ul>
+        <h5>Financial Summary</h5>
+        <div class="card stat-card mb-3"><div class="card-body">
+            <p class="mb-1">Valuation: ₹{{ startup.startup_valuation|floatformat:0 }}</p>
+            <p class="mb-1">Sales Turnover: ₹{{ startup.sales_turnover|floatformat:0 }}</p>
+            <p class="mb-1">Jobs Created: {{ startup.jobs_created }}</p>
+            <p class="mb-0">Office Rent: ₹{{ startup.office_rent|floatformat:0 }}</p>
+        </div></div>
+        <h5>Recent Invoices</h5>
+        <ul class="list-group">{% for i in invoices %}<li class="list-group-item d-flex justify-content-between"><span>{{ i.invoice_number }}</span><span>₹{{ i.amount }}</span></li>{% empty %}<li class="list-group-item text-muted">No invoices</li>{% endfor %}</ul>
+    </div>
+</div>
+{% endblock %}

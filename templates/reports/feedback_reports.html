@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Feedback Reports{% endblock %}
+{% block content %}
+<h1>Feedback Reports</h1>
+<p>Service Avg Rating: {{ service_avg_rating|floatformat:1|default:"N/A" }} | General Avg: {{ general_avg_rating|floatformat:1|default:"N/A" }}</p>
+<table class="table table-sm bg-white"><thead><tr><th>Type</th><th>Avg Rating</th><th>Count</th></tr></thead>
+<tbody>{% for d in by_type %}<tr><td>{{ d.feedback_type }}</td><td>{{ d.avg|floatformat:1 }}</td><td>{{ d.count }}</td></tr>{% endfor %}</tbody></table>
+{% endblock %}

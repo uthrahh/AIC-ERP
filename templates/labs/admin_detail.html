@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Lab Booking #{{ booking.pk }}{% endblock %}
+{% block content %}
+<h1>{{ booking.startup.brand_name }} — {{ booking.lab.lab_name }}</h1>
+<p>Date: {{ booking.requested_date }} | {{ booking.start_time }} - {{ booking.end_time }}</p>
+<h5>Equipment</h5>
+<ul>{% for eq in equipment %}<li>{{ eq.equipment.equipment_name }}</li>{% empty %}<li class="text-muted">None selected</li>{% endfor %}</ul>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-primary">Update</button></form>
+{% endblock %}

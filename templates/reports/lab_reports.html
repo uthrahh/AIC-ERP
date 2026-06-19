@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Lab Reports{% endblock %}
+{% block content %}
+<h1>Lab Reports</h1>
+<p>Total Bookings: {{ total_bookings }} | Approved: {{ approved }}</p>
+<table class="table table-sm bg-white"><thead><tr><th>Lab</th><th>Bookings</th></tr></thead>
+<tbody>{% for d in by_lab %}<tr><td>{{ d.lab__lab_name }}</td><td>{{ d.count }}</td></tr>{% endfor %}</tbody></table>
+{% endblock %}

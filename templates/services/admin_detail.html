@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Service Request #{{ service_request.pk }}{% endblock %}
+{% block content %}
+<h1>{{ service_request.startup.brand_name }} — {{ service_request.service_type }}</h1>
+<p>{{ service_request.description }}</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-primary">Update Status</button></form>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base_portal.html' %}
+{% block title %}Manage Startups{% endblock %}
+{% block content %}
+<h1>Startup Directory <a href="{% url 'startups:admin_create' %}" class="btn btn-primary btn-sm">+ Create</a></h1>
+<form method="get" class="row g-2 mb-3">
+    <div class="col-auto"><input name="q" value="{{ q }}" class="form-control" placeholder="Search..."></div>
+    <div class="col-auto"><select name="status" class="form-select"><option value="">All Status</option><option value="active" {% if status == 'active' %}selected{% endif %}>Active</option><option value="graduated" {% if status == 'graduated' %}selected{% endif %}>Graduated</option><option value="dropped" {% if status == 'dropped' %}selected{% endif %}>Dropped</option></select></div>
+    <div class="col-auto"><button class="btn btn-secondary">Filter</button></div>
+</form>
+<table class="table table-hover bg-white shadow-sm">
+<thead><tr><th>Logo</th><th>ID</th><th>Name</th><th>Founder</th><th>Email</th><th>Status</th><th>Type</th><th>Risk</th><th>Funding</th><th>POC</th><th></th></tr></thead>
+<tbody>
+{% for s in startups %}
+<tr>
+    <td>{% if s.logo %}<img src="{{ s.logo.url }}" width="32" height="32" class="rounded-circle">{% else %}—{% endif %}</td>
+    <td>{{ s.startup_code }}</td>
+    <td>{{ s.brand_name }}</td>
+    <td>{% with f=s.founders.first %}{{ f.founder_name|default:s.primary_poc_name|default:"—" }}{% endwith %}</td>
+    <td>{{ s.primary_poc_email|default:"—" }}</td>
+    <td><span class="badge bg-{% if s.startup_status == 'active' %}success{% elif s.startup_status == 'graduated' %}primary{% else %}secondary{% endif %}">{{ s.get_startup_status_display }}</span></td>
+    <td>{{ s.get_incubation_type_display }}</td>
+    <td>{{ s.risk_level|default:"—" }}</td>
+    <td>{{ s.funding_stage|default:"—" }}</td>
+    <td>{{ s.primary_poc_name|default:"—" }}</td>
+    <td><a href="{% url 'startups:admin_detail' s.pk %}">Manage</a></td>
+</tr>
+{% empty %}<tr><td colspan="11" class="text-muted">No startups found.</td></tr>{% endfor %}
+</tbody></table>
+{% if startups.has_other_pages %}
+<nav><ul class="pagination">{% if startups.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ startups.previous_page_number }}&q={{ q }}&status={{ status }}">Prev</a></li>{% endif %}<li class="page-item disabled"><span class="page-link">{{ startups.number }}/{{ startups.paginator.num_pages }}</span></li>{% if startups.has_next %}<li class="page-item"><a class="page-link" href="?page={{ startups.next_page_number }}&q={{ q }}&status={{ status }}">Next</a></li>{% endif %}</ul></nav>
+{% endif %}
+{% endblock %}

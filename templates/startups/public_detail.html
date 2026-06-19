@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}{{ startup.brand_name }}{% endblock %}
+{% block content %}
+<div class="text-center mb-4">
+    {% if startup.logo %}<img src="{{ startup.logo.url }}" class="startup-logo mb-3" style="width:120px;height:120px;">{% endif %}
+    <h1>{{ startup.brand_name }}</h1>
+    <p class="lead text-muted">{{ startup.sector|default:"Startup" }}{% if startup.sub_sector %} — {{ startup.sub_sector }}{% endif %}</p>
+</div>
+<p>{{ startup.company_description|default:"Profile description coming soon." }}</p>
+<h4>Team</h4>
+<div class="row g-3 mb-4">
+    {% for f in startup.founders.all %}
+    <div class="col-md-3 text-center"><strong>{{ f.founder_name }}</strong><br><small>{{ f.education|default:"Founder" }}</small></div>
+    {% endfor %}
+    {% for m in startup.team_members.all %}
+    <div class="col-md-3 text-center"><strong>{{ m.name }}</strong><br><small>{{ m.role }}</small></div>
+    {% empty %}{% if not startup.founders.all %}<p class="text-muted">Team info coming soon.</p>{% endif %}{% endfor %}
+</div>
+<h4>Media</h4>
+<div class="row g-3 mb-4">{% for m in startup.media.all %}<div class="col-md-4"><img src="{{ m.image.url }}" class="img-fluid rounded" alt="{{ m.title }}"></div>{% empty %}<p class="text-muted">No media uploaded.</p>{% endfor %}</div>
+<h4>Contact</h4>
+<p>{{ startup.primary_poc_email|default:"" }} {% if startup.primary_poc_phone %}| {{ startup.primary_poc_phone }}{% endif %}</p>
+{% if startup.website %}<p><a href="{{ startup.website }}" target="_blank">Visit Website</a></p>{% endif %}
+{% endblock %}

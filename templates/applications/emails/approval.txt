@@ -1,0 +1,19 @@
+Congratulations {{ application.founder_name }}!
+
+Your startup application for "{{ application.startup_name }}" has been APPROVED by the AIC-CIIC Selection Committee.
+
+Next Steps:
+1. You will receive login credentials from AIC-CIIC admin.
+2. Complete your startup profile on first login.
+3. Access incubation services through the AIC-CIIC ERP portal.
+
+Services Provided:
+- Mentorship and expert guidance
+- Infrastructure and lab access
+- Funding and investor connect
+- Market connect and networking
+- Legal and IP support
+
+Welcome to the AIC-CIIC family!
+
+Centre for Innovation, Incubation & Entrepreneurship

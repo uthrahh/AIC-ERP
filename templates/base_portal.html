@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AIC-CIIC Portal{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/static/css/AIC-CIIC.css" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="portal-body">
+<div class="portal-wrapper">
+    <aside class="portal-sidebar">
+        <a class="sidebar-brand" href="{% if user.is_admin %}{% url 'portal:admin_home' %}{% elif user.is_mentor_user %}{% url 'mentors:home' %}{% else %}{% url 'portal:startup_home' %}{% endif %}">
+            <img src="{% static 'img/AIC-AIC-CIIC-Logo-e1766042918668.png' %}" alt="AIC-CIIC" static/css/AIC-CIIC.css>
+        </a>
+        <nav class="sidebar-nav">
+            {% if user.is_admin %}
+            <a class="sidebar-link" href="{% url 'portal:admin_home' %}"><i class="bi bi-house"></i> Home</a>
+            <div class="sidebar-group">
+                <a class="sidebar-link sidebar-toggle" data-bs-toggle="collapse" href="#navStartups"><i class="bi bi-rocket"></i> Our Startups <i class="bi bi-chevron-down ms-auto"></i></a>
+                <div class="collapse show" id="navStartups">
+                    <a class="sidebar-sublink" href="{% url 'startups:admin_create' %}">Create Startup</a>
+                    <a class="sidebar-sublink" href="{% url 'startups:admin_list' %}">Directory</a>
+                </div>
+            </div>
+            <a class="sidebar-link" href="{% url 'applications:admin_list' %}"><i class="bi bi-file-earmark-text"></i> Applications</a>
+            <div class="sidebar-group">
+                <a class="sidebar-link sidebar-toggle" data-bs-toggle="collapse" href="#navServices"><i class="bi bi-grid"></i> Services <i class="bi bi-chevron-down ms-auto"></i></a>
+                <div class="collapse show" id="navServices">
+                    <a class="sidebar-sublink" href="{% url 'labs:admin_list' %}">Labs</a>
+                    <a class="sidebar-sublink" href="{% url 'services:admin_list' %}">Utilities</a>
+                    <a class="sidebar-sublink" href="{% url 'mentorship:admin_list' %}">Mentorship</a>
+                    <a class="sidebar-sublink" href="{% url 'halls:admin_list' %}">Conference Halls</a>
+                </div>
+            </div>
+            <a class="sidebar-link" href="{% url 'reports:dashboard' %}"><i class="bi bi-bar-chart"></i> Reports</a>
+            <div class="sidebar-group">
+                <a class="sidebar-link sidebar-toggle" data-bs-toggle="collapse" href="#navFinance"><i class="bi bi-currency-rupee"></i> Accounting <i class="bi bi-chevron-down ms-auto"></i></a>
+                <div class="collapse show" id="navFinance">
+                    <a class="sidebar-sublink" href="{% url 'finance:admin_invoice_list' %}">Invoices</a>
+                    <a class="sidebar-sublink" href="{% url 'finance:admin_invoice_create' %}">Create Invoice</a>
+                </div>
+            </div>
+            <a class="sidebar-link" href="{% url 'feedback:admin_complaint_list' %}"><i class="bi bi-chat-left-text"></i> Feedback</a>
+            <a class="sidebar-link" href="{% url 'portal:admin_history' %}"><i class="bi bi-clock-history"></i> History</a>
+            <a class="sidebar-link" href="{% url 'portal:home' %}"><i class="bi bi-globe"></i> Public Site</a>
+
+            {% elif user.is_startup_user %}
+            <a class="sidebar-link" href="{% url 'portal:startup_home' %}"><i class="bi bi-house"></i> Home</a>
+            <div class="sidebar-group">
+                <a class="sidebar-link sidebar-toggle" data-bs-toggle="collapse" href="#navServices"><i class="bi bi-grid"></i> Services <i class="bi bi-chevron-down ms-auto"></i></a>
+                <div class="collapse show" id="navServices">
+                    <a class="sidebar-sublink" href="{% url 'labs:list' %}">Lab Booking</a>
+                    <a class="sidebar-sublink" href="{% url 'labs:create' %}">Book Lab</a>
+                    <a class="sidebar-sublink" href="{% url 'services:list' %}">Utilities</a>
+                    <a class="sidebar-sublink" href="{% url 'services:create' %}">Request Utility</a>
+                    <a class="sidebar-sublink" href="{% url 'mentorship:list' %}">Mentorship</a>
+                    <a class="sidebar-sublink" href="{% url 'halls:list' %}">Conference Halls</a>
+                </div>
+            </div>
+            <a class="sidebar-link" href="{% url 'startups:profile' %}"><i class="bi bi-person-badge"></i> Profile</a>
+            <div class="sidebar-group">
+                <a class="sidebar-link sidebar-toggle" data-bs-toggle="collapse" href="#navFinance"><i class="bi bi-currency-rupee"></i> Accounting <i class="bi bi-chevron-down ms-auto"></i></a>
+                <div class="collapse show" id="navFinance">
+                    <a class="sidebar-sublink" href="{% url 'finance:billing' %}">Invoices &amp; Dues</a>
+                </div>
+            </div>
+            <a class="sidebar-link" href="{% url 'feedback:complaint_create' %}"><i class="bi bi-exclamation-circle"></i> Complaints</a>
+
+            {% elif user.is_mentor_user %}
+            <a class="sidebar-link" href="{% url 'mentors:home' %}"><i class="bi bi-house"></i> Home</a>
+            <a class="sidebar-link" href="{% url 'mentors:profile' %}"><i class="bi bi-person"></i> Profile</a>
+            <div class="sidebar-group">
+                <a class="sidebar-link sidebar-toggle" data-bs-toggle="collapse" href="#navFinance"><i class="bi bi-currency-rupee"></i> Accounting <i class="bi bi-chevron-down ms-auto"></i></a>
+                <div class="collapse show" id="navFinance">
+                    <a class="sidebar-sublink" href="{% url 'finance:mentor_billing' %}">Mentorship Invoices</a>
+                </div>
+            </div>
+            {% endif %}
+        </nav>
+        <div class="sidebar-footer">
+            <span class="sidebar-user">{{ user.username }}</span>
+            <a href="{% url 'accounts:logout' %}" class="sidebar-link"><i class="bi bi-box-arrow-left"></i> Logout</a>
+        </div>
+    </aside>
+    <div class="portal-main">
+        <header class="portal-topbar">
+            <button class="btn btn-link d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar"><i class="bi bi-list fs-4"></i></button>
+            <span class="portal-title">{% block page_title %}AIC-CIIC ERP{% endblock %}</span>
+        </header>
+        {% if messages %}
+        <div class="portal-messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <main class="portal-content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+<footer class="portal-footer bg-dark text-white py-3">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4"><small>{{ CIIC_OFFICE_ADDRESS }}</small></div>
+            <div class="col-md-4 text-center"><small><i class="bi bi-telephone"></i> {{ CIIC_CONTACT_PHONE }} &nbsp; <i class="bi bi-envelope"></i> {{ CIIC_CONTACT_EMAIL }}</small></div>
+            <div class="col-md-4 text-end"><small>&copy; AIC-CIIC Incubation Centre</small></div>
+        </div>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="/static/js/ciic.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

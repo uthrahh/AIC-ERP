@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}History - AIC-CIIC Admin{% endblock %}
+{% block content %}
+<h1 class="mb-4">History</h1>
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card stat-card"><div class="card-body">
+            <h5>Service Logs</h5>
+            <table class="table table-sm">
+                <thead><tr><th>Startup</th><th>Service</th><th>Closed</th></tr></thead>
+                <tbody>
+                {% for r in service_logs %}
+                <tr><td>{{ r.startup.brand_name }}</td><td>{{ r.service_type }}</td><td>{{ r.closed_at|date:"M d, Y" }}</td></tr>
+                {% empty %}<tr><td colspan="3" class="text-muted">No records.</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div></div>
+    </div>
+    <div class="col-md-6">
+        <div class="card stat-card"><div class="card-body">
+            <h5>Lab Schedule Records</h5>
+            <table class="table table-sm">
+                <thead><tr><th>Startup</th><th>Lab</th><th>Date</th></tr></thead>
+                <tbody>
+                {% for b in lab_history %}
+                <tr><td>{{ b.startup.brand_name }}</td><td>{{ b.lab.lab_name }}</td><td>{{ b.requested_date }}</td></tr>
+                {% empty %}<tr><td colspan="3" class="text-muted">No records.</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div></div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}AIC-CIIC - Home{% endblock %}
+{% block content %}
+<section class="hero-section text-center mb-5">
+    <div class="container">
+        <h1 class="display-5 fw-bold">AIC-CIIC</h1>
+        <h5> Supported by Atal Innovation Mission, NITI Aayog, Govt. of India</h4>
+        <p class="lead">Empowering startups from idea to impact</p>
+        <a href="{% url 'applications:submit' %}" class="btn btn-light btn-lg me-2">Apply Now</a>
+        <a href="{% url 'portal:startup_directory' %}" class="btn btn-outline-light btn-lg">Explore Startups</a>
+    </div>
+</section>
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card stat-card h-100 text-center p-4">
+            <h2 class="text-primary">{{ startup_count|default:"140+" }}</h2>
+            <p class="text-muted mb-0">Incubated Startups</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card h-100 text-center p-4">
+            <h2 class="text-primary">8+</h2>
+            <p class="text-muted mb-0">Domain Areas</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card h-100 text-center p-4">
+            <h2 class="text-primary">24/7</h2>
+            <p class="text-muted mb-0">Portal Access</p>
+        </div>
+    </div>
+</div>
+<h3 class="mb-3">Featured Startups</h3>
+<div class="marquee-wrap mb-5">
+    <div class="marquee-track">
+        {% for s in featured_startups %}
+        <div class="marquee-item">
+            {% if s.logo %}<img src="{{ s.logo.url }}" alt="{{ s.brand_name }}" class="startup-logo">{% else %}<div class="startup-logo mx-auto mb-2 d-flex align-items-center justify-content-center"><i class="bi bi-building"></i></div>{% endif %}
+            <h6>{{ s.brand_name }}</h6>
+            <small class="text-muted">{{ s.sector|default:"Startup"|truncatechars:50 }}</small>
+        </div>
+        {% empty %}
+        {% for i in "12345678" %}
+        <div class="marquee-item">
+            <div class="startup-logo mx-auto mb-2 d-flex align-items-center justify-content-center"><i class="bi bi-building"></i></div>
+            <h6>Startup {{ forloop.counter }}</h6>
+            <small class="text-muted">Innovating for tomorrow</small>
+        </div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

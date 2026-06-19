@@ -1,0 +1,12 @@
+{% extends 'base_portal.html' %}
+{% block title %}Hall Bookings - Admin{% endblock %}
+{% block content %}
+<h1>Conference Hall Bookings <a href="{% url 'halls:admin_calendar' %}" class="btn btn-outline-primary btn-sm">Calendar</a></h1>
+<table class="table table-hover bg-white shadow-sm">
+<thead><tr><th>Startup</th><th>Event</th><th>Hall</th><th>Date</th><th>Time</th><th>Attendees</th><th>Status</th><th></th></tr></thead>
+<tbody>
+{% for b in bookings %}
+<tr><td>{{ b.startup.brand_name }}</td><td>{{ b.event_name }}</td><td>{{ b.hall.hall_name }}</td><td>{{ b.booking_date }}</td><td>{{ b.start_time }}-{{ b.end_time }}</td><td>{{ b.attendees }}</td><td>{{ b.status }}</td><td><a href="{% url 'halls:admin_detail' b.pk %}">Review</a></td></tr>
+{% empty %}<tr><td colspan="8" class="text-muted">No bookings.</td></tr>{% endfor %}
+</tbody></table>
+{% endblock %}

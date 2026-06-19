@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Startup Reports{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-3">Startup Reports</h1>
+
+<div class="mb-3">
+    <a href="{% url 'reports:export_startups_excel' %}"
+       class="btn btn-success">
+       Export Excel
+    </a>
+
+    <a href="{% url 'reports:export_startups_pdf' %}"
+       class="btn btn-danger">
+       Export PDF
+    </a>
+</div>
+
+<div class="alert alert-info">
+    Active Startups: <strong>{{ active_count }}</strong>
+    |
+    Incubated Startups: <strong>{{ incubated_count }}</strong>
+</div>
+
+<h4>Sector Distribution</h4>
+
+<table class="table table-bordered table-striped bg-white">
+    <thead>
+        <tr>
+            <th>Sector</th>
+            <th>Count</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for d in sector_data %}
+        <tr>
+            <td>{{ d.sector }}</td>
+            <td>{{ d.count }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No data available</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4>Startup List</h4>
+
+<table class="table table-bordered table-hover bg-white">
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Brand Name</th>
+            <th>Sector</th>
+            <th>Status</th>
+            <th>Funding Stage</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for s in startups %}
+        <tr>
+            <td>{{ s.startup_code }}</td>
+            <td>{{ s.brand_name }}</td>
+            <td>{{ s.sector }}</td>
+            <td>{{ s.startup_status }}</td>
+            <td>{{ s.funding_stage }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

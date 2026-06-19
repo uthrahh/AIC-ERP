@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Application Submitted{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+    <i class="bi bi-check-circle text-success display-1"></i>
+    <h2 class="mt-3">Application Submitted</h2>
+    <p>Reference: #{{ application.pk }} — {{ application.startup_name }}</p>
+    <p class="text-muted">Status: {{ application.status }}. You will be notified via email once reviewed.</p>
+    <a href="{% url 'portal:home' %}" class="btn btn-primary">Back to Home</a>
+</div>
+{% endblock %}

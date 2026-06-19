@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block title %}Apply - AIC-CIIC{% endblock %}
+{% block content %}
+<h1 class="mb-4">Startup Application</h1>
+<form method="post" class="row g-3">
+{% csrf_token %}
+
+<div class="col-md-6">
+    <label class="form-label">Founder Name</label>
+    {{ form.founder_name }}
+    <div class="text-danger">{{ form.founder_name.errors }}</div>
+</div>
+
+<div class="col-md-6">
+    <label class="form-label">Startup Name</label>
+    {{ form.startup_name }}
+    <div class="text-danger">{{ form.startup_name.errors }}</div>
+</div>
+
+<div class="col-md-6">
+    <label class="form-label">Building Number & Name</label>
+    {{ form.building_name }}
+    <div class="text-danger">{{ form.building_name.errors }}</div>
+</div>
+
+<div class="col-md-6">
+    <label class="form-label">Street</label>
+    {{ form.street }}
+    <div class="text-danger">{{ form.street.errors }}</div>
+</div>
+
+<div class="col-md-3">
+    <label class="form-label">Pincode</label>
+    {{ form.pincode }}
+    <div class="text-danger">{{ form.pincode.errors }}</div>
+</div>
+
+<div class="col-md-3">
+    <label class="form-label">Area</label>
+    {{ form.area }}
+</div>
+
+<div class="col-md-3">
+    <label class="form-label">City/District</label>
+    {{ form.city }}
+</div>
+
+<div class="col-md-3">
+    <label class="form-label">State</label>
+    {{ form.state }}
+</div>
+
+<div class="col-md-6">
+    <label class="form-label">Contact Number</label>
+    {{ form.contact_number }}
+    <div class="text-danger">{{ form.contact_number.errors }}</div>
+</div>
+
+<div class="col-md-6">
+    <label class="form-label">Email</label>
+    {{ form.email }}
+    <div class="text-danger">{{ form.email.errors }}</div>
+</div>
+
+<div class="col-md-6">
+    <label class="form-label">Referred By / Source</label>
+    {{ form.reference_source }}
+    <div class="text-danger">{{ form.reference_source.errors }}</div>
+</div>
+
+<div class="col-12">
+    <label class="form-label">Problem Identified</label>
+    {{ form.problem_statement }}
+    <div class="text-danger">{{ form.problem_statement.errors }}</div>
+</div>
+
+<div class="col-12">
+    <label class="form-label">Proposed Solution</label>
+    {{ form.solution }}
+    <div class="text-danger">{{ form.solution.errors }}</div>
+</div>
+
+<div class="col-12">
+    <label class="form-label">Services Required</label>
+    {{ form.services_required }}
+    <div class="text-danger">{{ form.services_required.errors }}</div>
+</div>
+
+<div class="col-12">
+    <label class="form-label">Others (Specify)</label>
+    {{ form.other_service }}
+    <div class="text-danger">{{ form.other_service.errors }}</div>
+</div>
+
+{% if form.non_field_errors %}
+<div class="col-12">
+    <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+    </div>
+</div>
+{% endif %}
+
+<div class="col-12">
+    <button type="submit" class="btn btn-primary btn-lg">
+        Submit Application
+    </button>
+</div>
+
+</form>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const pincode = document.getElementById('id_pincode');
+
+    pincode.addEventListener('blur', async function() {
+
+        if(this.value.length !== 6) return;
+
+        const response =
+        await fetch(
+        `https://api.postalpincode.in/pincode/${this.value}`
+        );
+
+        const data = await response.json();
+
+        if(data[0].Status === "Success"){
+
+            const postOffice = data[0].PostOffice[0];
+
+            document.getElementById('id_area').value =
+            postOffice.Name;
+
+            document.getElementById('id_city').value =
+            postOffice.District;
+
+            document.getElementById('id_state').value =
+            postOffice.State;
+        }
+    });
+});
+</script>
+{% endblock %}

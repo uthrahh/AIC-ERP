@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Create Startup{% endblock %}
+{% block content %}
+<h1>Create Startup Account</h1>
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+<h4>Startup Details</h4>{{ startup_form.as_p }}
+<h4>Login Credentials</h4>{{ user_form.as_p }}
+<button class="btn btn-primary">Create Startup</button>
+</form>
+{% endblock %}
