@@ -7,41 +7,6 @@
         <div class="card stat-card shadow">
             <div class="card-body p-4">
                 <h3 class="text-center mb-4">Login</h3>
-                <div class="row g-2 mb-4">
-
-                    <div class="col-6">
-                        <button type="button"
-                                class="btn btn-outline-primary w-100 role-btn"
-                                data-user="startup">
-                            Startup
-                        </button>
-                    </div>
-
-                    <div class="col-6">
-                        <button type="button"
-                                class="btn btn-outline-primary w-100 role-btn"
-                                data-user="mentor">
-                            Mentor
-                        </button>
-                    </div>
-
-                    <div class="col-6">
-                        <button type="button"
-                                class="btn btn-outline-primary w-100 role-btn"
-                                data-user="user">
-                            User
-                        </button>
-                    </div>
-
-                    <div class="col-6">
-                        <button type="button"
-                                class="btn btn-outline-danger w-100 role-btn"
-                                data-user="admin">
-                            Admin
-                        </button>
-                    </div>
-
-                </div>
                 <form method="post">{% csrf_token %}
                     <div class="mb-3">
                         {{ form.username.label_tag }}

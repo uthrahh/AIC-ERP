@@ -4,7 +4,9 @@ from labs.models import LabBooking, Lab, Equipment
 
 class LabBookingForm(forms.ModelForm):
     equipment = forms.ModelMultipleChoiceField(
-        queryset=Equipment.objects.filter(availability_status='available'),
+        queryset=Equipment.objects.filter(
+            active=True
+        ),
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )
@@ -33,3 +35,54 @@ class AdminLabBookingForm(forms.ModelForm):
         model = LabBooking
         fields = ['status']
         widgets = {'status': forms.Select(attrs={'class': 'form-select'})}
+
+from .models import Lab, Equipment
+
+class LabForm(forms.ModelForm):
+
+    class Meta:
+        model = Lab
+
+        fields = [
+            "lab_name",
+            "lab_code",
+            "location",
+            "description",
+            "capacity",
+            "active",
+        ]
+
+        widgets = {
+            "lab_name": forms.TextInput(attrs={"class": "form-control"}),
+            "lab_code": forms.TextInput(attrs={"class": "form-control"}),
+            "location": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
+            "capacity": forms.NumberInput(attrs={"class": "form-control"}),
+        }
+
+
+class EquipmentForm(forms.ModelForm):
+
+    class Meta:
+        model = Equipment
+
+        fields = [
+            "lab",
+            "equipment_name",
+            "equipment_code",
+            "description",
+            "quantity",
+            "tariff",
+            "availability_status",
+            "active",
+        ]
+
+        widgets = {
+            "lab": forms.Select(attrs={"class": "form-select"}),
+            "equipment_name": forms.TextInput(attrs={"class": "form-control"}),
+            "equipment_code": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
+            "quantity": forms.NumberInput(attrs={"class": "form-control"}),
+            "tariff": forms.NumberInput(attrs={"class": "form-control"}),
+            "availability_status": forms.Select(attrs={"class": "form-select"}),
+        }

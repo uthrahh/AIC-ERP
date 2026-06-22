@@ -1,12 +1,73 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.contrib import messages
+from django.shortcuts import redirect
+from labs.forms import LabForm, EquipmentForm
 from accounts.decorators import admin_required, startup_required, get_startup_for_user
 from audit.utils import log_action
 from portal.utils import acknowledge_action
 from labs.forms import LabBookingForm, AdminLabBookingForm
-from labs.models import LabBooking, BookingEquipment
+from labs.models import (
+    LabBooking,
+    BookingEquipment,
+    EquipmentMaster
+)
+from labs.models import EquipmentMaster
 
+@admin_required
+def lab_create(request):
+
+    if request.method == "POST":
+
+        form = LabForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                "Lab added successfully."
+            )
+
+            return redirect("labs:admin_list")
+
+    else:
+
+        form = LabForm()
+
+    return render(
+        request,
+        "labs/lab_form.html",
+        {"form": form}
+    )
+
+
+@admin_required
+def equipment_create(request):
+
+    if request.method == "POST":
+
+        form = EquipmentForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                "Equipment added successfully."
+            )
+
+            return redirect("labs:admin_list")
+
+    else:
+
+        form = EquipmentForm()
+
+    return render(
+        request,
+        "labs/equipment_form.html",
+        {"form": form}
+    )
 
 @startup_required
 def booking_create(request):
@@ -47,12 +108,18 @@ def booking_list(request):
 def admin_list(request):
     bookings = LabBooking.objects.select_related('startup', 'lab')
     status = request.GET.get('status')
+    
     if status:
         bookings = bookings.filter(status=status)
+    print(type(EquipmentMaster.objects.first()))
+    print(type(EquipmentMaster.objects.first()))
     return render(request, 'labs/admin_list.html', {
         'bookings': bookings,
         'status_filter': status,
         'statuses': LabBooking.Status.choices,
+        "equipment_list": EquipmentMaster.objects.all().order_by(
+            "equipment_name"
+        ),
     })
 
 

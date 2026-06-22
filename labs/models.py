@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 
 class Lab(models.Model):
 
@@ -40,7 +40,9 @@ class Equipment(models.Model):
         related_name='equipment'
     )
 
-    equipment_name = models.CharField(max_length=255)
+    equipment_name = models.CharField(
+        max_length=255
+    )
 
     equipment_code = models.CharField(
         max_length=50,
@@ -49,9 +51,13 @@ class Equipment(models.Model):
         null=True
     )
 
-    description = models.TextField(blank=True)
+    description = models.TextField(
+        blank=True
+    )
 
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField(
+        default=1
+    )
 
     tariff = models.DecimalField(
         max_digits=12,
@@ -65,14 +71,15 @@ class Equipment(models.Model):
         default=Availability.AVAILABLE
     )
 
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(
+        default=True
+    )
 
     class Meta:
-        db_table = 'equipment'
+        db_table = "equipment"
 
     def __str__(self):
         return self.equipment_name
-
 
 class LabBooking(models.Model):
 
@@ -220,3 +227,44 @@ class LabTariffTemplate(models.Model):
 
     class Meta:
         db_table = 'lab_tariff_templates'
+
+class EquipmentMaster(models.Model):
+
+    applicant_centre = models.CharField(
+        max_length=255
+    )
+
+    pan_number = models.CharField(
+        max_length=50,
+        blank=True
+    )
+
+    equipment_name = models.CharField(
+        max_length=255
+    )
+
+    brand_name = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    procurement_date = models.DateField(
+        null=True,
+        blank=True
+    )
+
+    amount = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        default=0
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        db_table = "equipment_master"
+
+    def __str__(self):
+        return self.equipment_name
