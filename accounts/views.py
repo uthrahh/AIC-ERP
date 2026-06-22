@@ -6,9 +6,12 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View
-
 from accounts.forms import LoginForm, CustomPasswordChangeForm
 from audit.utils import log_action
+from django.contrib.auth import logout
+from accounts.forms import ApplicantRegistrationForm
+from django.contrib.auth import login
+from django.contrib.auth import login
 
 
 class UserLoginView(LoginView):
@@ -17,27 +20,49 @@ class UserLoginView(LoginView):
     redirect_authenticated_user = True
 
     def form_valid(self, form):
-        response = super().form_valid(form)
+
         user = form.get_user()
-        user.last_login_at = timezone.now()
-        user.save(update_fields=['last_login_at'])
-        log_action(user, 'login', 'accounts', user.pk, request=self.request)
+
+        log_action(
+            user,
+            'login',
+            'accounts',
+            user.pk,
+            request=self.request
+        )
+
+        response = super().form_valid(form)
+
         if user.is_admin:
             return redirect('portal:admin_home')
-        if user.is_mentor_user:
+
+        elif user.is_mentor_user:
             return redirect('mentors:home')
-        if user.is_startup_user:
+
+        elif user.is_startup_user:
             return redirect('portal:startup_home')
+        
+        elif user.is_applicant:
+            return redirect('applications:submit')
+
         return response
 
+class UserLogoutView(View):
 
-class UserLogoutView(LogoutView):
-    next_page = 'portal:home'
+    def get(self, request):
 
-    def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            log_action(request.user, 'logout', 'accounts', request.user.pk, request=request)
-        return super().dispatch(request, *args, **kwargs)
+            log_action(
+                request.user,
+                'logout',
+                'accounts',
+                request.user.pk,
+                request=request
+            )
+
+        logout(request)
+
+        return redirect('accounts:login')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -61,3 +86,41 @@ class ChangePasswordView(View):
                 else 'portal:admin_home'
             )
         return render(request, self.template_name, {'form': form})
+
+def applicant_register(request):
+
+    if request.method == "POST":
+
+        form = ApplicantRegistrationForm(request.POST)
+
+        if form.is_valid():
+
+            user = form.save()
+
+            login(request, user)
+
+            return redirect(
+                "applications:submit"
+            )
+
+    else:
+        form = ApplicantRegistrationForm()
+
+    return render(
+        request,
+        "accounts/register.html",
+        {"form": form}
+    )
+
+def save(self, commit=True):
+
+    user = super().save(commit=False)
+
+    user.username = self.cleaned_data["email"]
+    user.email = self.cleaned_data["email"]
+    user.role = User.Role.APPLICANT
+
+    if commit:
+        user.save()
+
+    return user

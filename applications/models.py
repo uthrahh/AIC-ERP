@@ -9,6 +9,12 @@ SERVICE_CHOICES = [
     ('Others', 'Others'),
 ]
 
+TITLE_CHOICES = [
+    ("Mr.", "Mr."),
+    ("Ms.", "Ms."),
+    ("Mrs.", "Mrs."),
+]
+
 class Application(models.Model):
     class Status(models.TextChoices):
         PENDING = 'Pending', 'Pending'
@@ -19,6 +25,13 @@ class Application(models.Model):
         REJECTED = 'Rejected', 'Rejected'
 
     timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(
+        "accounts.User",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="applications"
+    )
     founder_name = models.CharField(max_length=50)
     startup_name = models.CharField(max_length=30)
     building_name = models.CharField(max_length=50)
@@ -35,6 +48,17 @@ class Application(models.Model):
     other_service = models.CharField(max_length=50, blank=True)
     reference_source = models.CharField(max_length=255, blank=True)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING)
+    founder_title = models.CharField(
+        max_length=10,
+        choices=TITLE_CHOICES,
+        blank=True,
+    )
+    user = models.ForeignKey(
+        "accounts.User",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
 
     class Meta:
         db_table = 'applications'

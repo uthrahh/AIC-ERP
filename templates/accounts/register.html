@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Account{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-5">
+
+        <div class="card shadow">
+
+            <div class="card-body p-4">
+
+                <h3 class="mb-4">
+                    Create Account
+                </h3>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Email Address
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        {{ form.email }}
+
+                        <small class="text-muted d-block mt-1">
+                            Required.
+                        </small>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Password
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        {{ form.password1 }}
+
+                        <small class="text-muted d-block mt-1"></small>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Confirm Password
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        {{ form.password2 }}
+
+                        <small class="text-muted d-block mt-1">
+                            Enter the same password as before, for verification.
+                        </small>
+
+                    </div>
+                    <button class="btn btn-primary w-100">
+                        Create Account
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

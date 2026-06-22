@@ -4,6 +4,7 @@ from portal.views import (
     about,
     startup_directory,
     contact,
+    team,
     startup_home,
     admin_home,
     admin_history,
@@ -12,9 +13,10 @@ from portal.views import (
 app_name = 'portal'
 
 urlpatterns = [
-    path('', home, name='home'),
+    path('', about, name='home'),
     path('about/', about, name='about'),
     path('startups/', startup_directory, name='startup_directory'),
+    path('team/', team, name='team'),
     path('contact/', contact, name='contact'),
     path('startup/', startup_home, name='startup_home'),
     path('AIC-CIIC-admin/', admin_home, name='admin_home'),

@@ -3,33 +3,87 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-
 from accounts.decorators import admin_required
 from applications.forms import ApplicationForm, ApplicationReviewForm
 from applications.models import Application, ApplicationReview
 from audit.utils import log_action
 from portal.utils import acknowledge_action
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def application_submit(request):
-    if request.method == 'POST':
+
+    print("VIEW HIT")
+
+    if Application.objects.filter(
+        user=request.user
+    ).exists():
+
+        messages.warning(
+            request,
+            "You have already submitted an application."
+        )
+
+        return redirect("applicants:dashboard")
+
+    if request.method == "POST":
+
         form = ApplicationForm(request.POST)
+
+        print("POST RECEIVED")
+
         if form.is_valid():
+
+            print("FORM VALID")
+
             app = form.save(commit=False)
+            app.user = request.user
             app.status = Application.Status.COMPLETE
             app.save()
-            log_action(request.user if request.user.is_authenticated else None,
-                       'application_submitted', 'applications', app.pk, request=request)
-            messages.success(request, 'Application submitted successfully.')
-            return redirect('applications:submit_success', pk=app.pk)
-    else:
-        form = ApplicationForm()
-    return render(request, 'applications/submit.html', {'form': form})
 
+            messages.success(
+                request,
+                "Application submitted successfully! We'll get back to you soon."
+            )
+
+            return redirect(
+                "applications:submit_success",
+                pk=app.pk
+            )
+
+        else:
+
+            print("FORM INVALID")
+            print(form.errors)
+
+    else:
+
+        form = ApplicationForm()
+
+    return render(
+        request,
+        "applications/submit.html",
+        {
+            "form": form
+        }
+    )
 
 def application_success(request, pk):
-    application = get_object_or_404(Application, pk=pk)
-    return render(request, 'applications/success.html', {'application': application})
+
+    print("SUCCESS PAGE HIT")
+
+    application = get_object_or_404(
+        Application,
+        pk=pk
+    )
+
+    return render(
+        request,
+        'applications/success.html',
+        {
+            'application': application
+        }
+    )
 
 
 @admin_required
@@ -93,3 +147,4 @@ def _send_approval_email(application):
     subject = f'Congratulations! Application Approved - {application.startup_name}'
     body = render_to_string('applications/emails/approval.txt', {'application': application})
     send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [application.email], fail_silently=True)
+

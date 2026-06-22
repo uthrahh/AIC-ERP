@@ -1,68 +1,59 @@
-{% extends 'base_portal.html' %}
+{% extends 'base.html' %}
 {% block title %}Admin Dashboard - AIC-CIIC{% endblock %}
-{% block page_title %}Actions Required{% endblock %}
+
 {% block content %}
-<h1 class="mb-4">Actions Required</h1>
-<div class="row g-3 mb-4">
-    <div class="col-md-2"><div class="card stat-card border-info text-center p-3"><h4>{{ new_applications_count }}</h4><small>Applications</small></div></div>
-    <div class="col-md-2"><div class="card stat-card border-warning text-center p-3"><h4>{{ new_service_count }}</h4><small>Services</small></div></div>
-    <div class="col-md-2"><div class="card stat-card border-primary text-center p-3"><h4>{{ new_lab_count }}</h4><small>Lab Bookings</small></div></div>
-    <div class="col-md-2"><div class="card stat-card border-success text-center p-3"><h4>{{ new_hall_count }}</h4><small>Hall Bookings</small></div></div>
-    <div class="col-md-2"><div class="card stat-card border-danger text-center p-3"><h4>{{ new_complaint_count }}</h4><small>Complaints</small></div></div>
+
+<h1 class="mb-4">
+    Admin Dashboard
+</h1>
+
+<div class="row g-3 mb-5">
+
+    <div class="col-md-2">
+        <a href="{% url 'applications:admin_list' %}" class="text-decoration-none">
+            <div class="card stat-card text-center p-3 h-100">
+                <h3>{{ new_applications_count }}</h3>
+                <small class="text-dark">Applications</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-2">
+        <a href="{% url 'services:admin_list' %}" class="text-decoration-none">
+            <div class="card stat-card text-center p-3 h-100">
+                <h3>{{ new_service_count }}</h3>
+                <small class="text-dark">Services</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-2">
+        <a href="{% url 'labs:admin_list' %}" class="text-decoration-none">
+            <div class="card stat-card text-center p-3 h-100">
+                <h3>{{ new_lab_count }}</h3>
+                <small class="text-dark">Lab Bookings</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-2">
+        <a href="{% url 'halls:admin_list' %}" class="text-decoration-none">
+            <div class="card stat-card text-center p-3 h-100">
+                <h3>{{ new_hall_count }}</h3>
+                <small class="text-dark">Hall Bookings</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-2">
+        <a href="{% url 'feedback:admin_complaint_list' %}" class="text-decoration-none">
+            <div class="card stat-card text-center p-3 h-100">
+                <h3>{{ new_complaint_count }}</h3>
+                <small class="text-dark">Complaints</small>
+            </div>
+        </a>
+    </div>
+
 </div>
-<div class="row g-4">
-    <div class="col-md-6">
-        <div class="card stat-card"><div class="card-body">
-            <h5><i class="bi bi-file-earmark-text"></i> Pending Applications</h5>
-            <ul class="list-group list-group-flush">
-            {% for a in pending_applications %}
-            <li class="list-group-item px-0 d-flex justify-content-between">
-                <a href="{% url 'applications:admin_detail' a.pk %}">{{ a.startup_name }}</a>
-                <span class="badge bg-info">{{ a.status }}</span>
-            </li>
-            {% empty %}<li class="list-group-item px-0 text-muted">No pending applications</li>{% endfor %}
-            </ul>
-        </div></div>
-    </div>
-    <div class="col-md-6">
-        <div class="card stat-card"><div class="card-body">
-            <h5><i class="bi bi-tools"></i> Service Requests</h5>
-            <ul class="list-group list-group-flush">
-            {% for r in pending_services %}
-            <li class="list-group-item px-0"><a href="{% url 'services:admin_detail' r.pk %}">{{ r.startup.brand_name }}</a> — {{ r.service_type }}</li>
-            {% empty %}<li class="list-group-item px-0 text-muted">None</li>{% endfor %}
-            </ul>
-        </div></div>
-    </div>
-    <div class="col-md-6">
-        <div class="card stat-card"><div class="card-body">
-            <h5><i class="bi bi-flask"></i> Lab Bookings</h5>
-            <ul class="list-group list-group-flush">
-            {% for b in pending_labs %}
-            <li class="list-group-item px-0"><a href="{% url 'labs:admin_detail' b.pk %}">{{ b.startup.brand_name }}</a> — {{ b.lab.lab_name }}</li>
-            {% empty %}<li class="list-group-item px-0 text-muted">None</li>{% endfor %}
-            </ul>
-        </div></div>
-    </div>
-    <div class="col-md-6">
-        <div class="card stat-card"><div class="card-body">
-            <h5><i class="bi bi-door-open"></i> Hall Bookings</h5>
-            <ul class="list-group list-group-flush">
-            {% for b in pending_halls %}
-            <li class="list-group-item px-0"><a href="{% url 'halls:admin_detail' b.pk %}">{{ b.startup.brand_name }}</a> — {{ b.hall.hall_name }}</li>
-            {% empty %}<li class="list-group-item px-0 text-muted">None</li>{% endfor %}
-            </ul>
-        </div></div>
-    </div>
-    <div class="col-md-6">
-        <div class="card stat-card"><div class="card-body">
-            <h5><i class="bi bi-exclamation-circle"></i> Complaints</h5>
-            <ul class="list-group list-group-flush">
-            {% for c in pending_complaints %}
-            <li class="list-group-item px-0"><a href="{% url 'feedback:admin_complaint_detail' c.pk %}">{{ c.startup.brand_name }}</a> — {{ c.subject|truncatechars:30 }}</li>
-            {% empty %}<li class="list-group-item px-0 text-muted">None</li>{% endfor %}
-            </ul>
-        </div></div>
-    </div>
-</div>
+
 {% endblock %}

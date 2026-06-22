@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path, include
+
+app_name = "applicants"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -18,6 +19,10 @@ urlpatterns = [
     path('halls/', include('halls.urls')),
     path('mentorship/', include('mentorship.urls')),
     path('mentors/', include('mentors.urls')),
+    path(
+        "applicant/",
+        include("applicants.urls")
+    ),
 ]
 
 if settings.DEBUG:

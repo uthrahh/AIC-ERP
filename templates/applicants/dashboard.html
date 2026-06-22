@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Applicant Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <h2 class="mb-4">
+        Applicant Dashboard
+    </h2>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h5>
+                Application Status
+            </h5>
+
+            <span class="badge bg-primary">
+                {{ application.status }}
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

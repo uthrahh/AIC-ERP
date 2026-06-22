@@ -5,61 +5,79 @@
 <form method="post" class="row g-3">
 {% csrf_token %}
 
-<div class="col-md-6">
-    <label class="form-label">Founder Name</label>
-    {{ form.founder_name }}
-    <div class="text-danger">{{ form.founder_name.errors }}</div>
+<div class="row">
+
+    <div class="col-md-2 mb-3">
+        <label class="form-label">
+            Title
+        </label>
+        {{ form.founder_title }}
+    </div>
+
+    <div class="col-md-10 mb-3">
+        <label class="form-label">
+            Founder Name
+        </label>
+        {{ form.founder_name }}
+    </div>
+
 </div>
 
-<div class="col-md-6">
-    <label class="form-label">Startup Name</label>
+<div class="col-md-12 mb-3">
+    <label class="form-label">
+        Startup Name
+    </label>
     {{ form.startup_name }}
-    <div class="text-danger">{{ form.startup_name.errors }}</div>
 </div>
 
-<div class="col-md-6">
-    <label class="form-label">Building Number & Name</label>
+<div class="col-12 mt-3 mb-2">
+    <h5 class="fw-bold">
+        Address
+    </h5>
+</div>
+
+<div class="col-md-6 mb-3">
     {{ form.building_name }}
-    <div class="text-danger">{{ form.building_name.errors }}</div>
 </div>
 
-<div class="col-md-6">
-    <label class="form-label">Street</label>
+<div class="col-md-6 mb-3">
     {{ form.street }}
-    <div class="text-danger">{{ form.street.errors }}</div>
 </div>
 
-<div class="col-md-3">
-    <label class="form-label">Pincode</label>
+<div class="col-md-3 mb-3">
     {{ form.pincode }}
-    <div class="text-danger">{{ form.pincode.errors }}</div>
 </div>
 
-<div class="col-md-3">
-    <label class="form-label">Area</label>
+<div class="col-md-3 mb-3">
     {{ form.area }}
 </div>
 
-<div class="col-md-3">
-    <label class="form-label">City/District</label>
+<div class="col-md-3 mb-3">
     {{ form.city }}
 </div>
 
-<div class="col-md-3">
-    <label class="form-label">State</label>
+<div class="col-md-3 mb-3">
     {{ form.state }}
 </div>
 
-<div class="col-md-6">
-    <label class="form-label">Contact Number</label>
-    {{ form.contact_number }}
-    <div class="text-danger">{{ form.contact_number.errors }}</div>
+<div class="col-md-6 mb-3">
+    <label class="form-label">
+        Contact Number
+    </label>
+
+    <div class="input-group">
+        <span class="input-group-text">
+            +91
+        </span>
+        {{ form.contact_number }}
+    </div>
 </div>
 
-<div class="col-md-6">
-    <label class="form-label">Email</label>
+<div class="col-md-6 mb-3">
+    <label class="form-label">
+        Email
+    </label>
     {{ form.email }}
-    <div class="text-danger">{{ form.email.errors }}</div>
 </div>
 
 <div class="col-md-6">

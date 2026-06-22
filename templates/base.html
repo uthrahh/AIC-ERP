@@ -13,69 +13,155 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background: var(--AIC-CIIC-primary);">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'portal:home' %}">
+            <a class="navbar-brand"
+            href="
+            {% if user.is_authenticated %}
+
+                {% if user.is_admin %}
+                    {% url 'portal:admin_home' %}
+                {% elif user.is_startup_user %}
+                    {% url 'portal:startup_home' %}
+                {% elif user.is_mentor_user %}
+                    {% url 'mentors:home' %}
+                {% else %}
+                    {% url 'portal:home' %}
+                {% endif %}
+
+            {% else %}
+                {% url 'portal:home' %}
+            {% endif %}
+            ">
                 <img src="{% static 'img/AIC-CIIC-Logo-e1766042918668.png' %}"
-                    alt="AIC-AIC-CIIC Logo"
+                    alt="AIC-CIIC Logo"
                     style="height:42px; width:auto;">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navMain">
+
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'portal:about' %}">About Us</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'portal:startup_directory' %}">
-                            Our Startups
-                        </a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'applications:submit' %}">Apply Now</a></li>
+
+                    {% if not user.is_authenticated %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'portal:about' %}">
+                                About Us
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'portal:startup_directory' %}">
+                                Our Startups
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'portal:team' %}">
+                                Our Team
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                            href="{% url 'accounts:register' %}">
+                                Apply Now
+                            </a>
+                        </li>
+
+                    {% elif user.is_admin %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'portal:admin_home' %}">
+                                Dashboard
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'applications:admin_list' %}">
+                                Applications
+                                {% if new_applications_count > 0 %}
+                                <span class="badge bg-danger ms-1">
+                                    {{ new_applications_count }}
+                                </span>
+                                {% endif %}
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'services:admin_list' %}">
+                                Services
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'labs:admin_list' %}">
+                                Labs
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'halls:admin_list' %}">
+                                Halls
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mentorship:admin_list' %}">
+                                Mentorship
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'feedback:admin_complaint_list' %}">
+                                Complaints
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'finance:admin_invoice_list' %}">
+                                Accounting
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'reports:dashboard' %}">
+                                Reports
+                            </a>
+                        </li>
+
+                    {% elif user.is_startup_user %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'portal:startup_home' %}">
+                                Dashboard
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'startups:profile' %}">
+                                My Startup
+                            </a>
+                        </li>
+
+                    {% elif user.is_mentor_user %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mentors:home' %}">
+                                Dashboard
+                            </a>
+                        </li>
+
+                    {% endif %}
+
                 </ul>
-                <ul class="navbar-nav align-items-center">
+
+                <ul class="navbar-nav">
 
                     {% if user.is_authenticated %}
 
-                        {% if user.is_admin %}
                         <li class="nav-item">
-                            <a class="nav-link text-warning fw-bold"
-                            href="{% url 'portal:admin_home' %}">
-                            ERP Dashboard
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link"
-                            href="/admin/">
-                            Django Admin
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link"
-                            href="{% url 'reports:dashboard' %}">
-                            Reports
-                            </a>
-                        </li>
-                        {% endif %}
-
-                        {% if user.is_startup_user %}
-                        <li class="nav-item">
-                            <a class="nav-link"
-                            href="{% url 'portal:startup_home' %}">
-                            Startup Dashboard
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link"
-                            href="{% url 'startups:profile' %}">
-                            Profile
-                            </a>
-                        </li>
-                        {% endif %}
-
-                        <li class="nav-item">
-                            <span class="nav-link text-light">
+                            <span class="nav-link">
                                 {{ user.username }}
                             </span>
                         </li>
@@ -83,7 +169,7 @@
                         <li class="nav-item">
                             <a class="nav-link"
                             href="{% url 'accounts:logout' %}">
-                            Logout
+                                Logout
                             </a>
                         </li>
 
@@ -92,13 +178,14 @@
                         <li class="nav-item">
                             <a class="nav-link"
                             href="{% url 'accounts:login' %}">
-                            Login
+                                Login
                             </a>
                         </li>
 
                     {% endif %}
 
                 </ul>
+
             </div>
         </div>
     </nav>
@@ -120,51 +207,66 @@
 
     <footer class="bg-dark text-white py-5 mt-5">
         <div class="container">
+
             <div class="row">
 
                 <div class="col-md-5">
-                    <h5>AIC-CIIC</h5>
+
+                    <h5>
+                        Atal Incubation Centre <br>– Crescent Innovation & Incubation Council
+                    </h5>
 
                     <p>
-                        Located in:
-                        B.S. Abdur Rahman Crescent Institute of Science and Technology
-                    </p>
-
-                    <p>
-                        AIC CIIC, B.S. Abdur Rahman Crescent Institute of Science & Technology,
-                        Seethakathi Estate, GST Road,
-                        Vandalur, Tamil Nadu – 600048.
+                        B.S. Abdur Rahman Crescent Institute of Science & Technology,<br>
+                        GST Road, Vandalur, Chennai – 600048
                     </p>
                 </div>
 
                 <div class="col-md-4">
                     <h5>Contact</h5>
 
-                    <p>
-                        <strong>Phone:</strong><br>
-                        +91 8190982932
-                    </p>
-
-                    <p>
-                        <strong>Email:</strong><br>
+                    <p class="mb-0">
+                        +91 81909 82932
+                        <span class="mx-2">|</span>
                         incubation@aic-ciic.ventures
                     </p>
                 </div>
+                <br>
+                {% if not user.is_authenticated %}
+                <div class="col-md-3 mt-3 mt-md-0">
+                    <h5>Quick Links</h5>
 
-                <div class="col-md-3">
-                    <h5>Working Hours</h5>
+                    <p class="mb-0">
+                        <a class="text-white text-decoration-none"
+                        href="{% url 'portal:about' %}">
+                            About Us
+                        </a>
 
-                    <p>
-                        Mon – Sat<br>
-                        10:00 AM – 7:00 PM
-                    </p>
+                        <span class="mx-2">|</span>
 
-                    <p>
-                        Sunday Closed
+                        <a class="text-white text-decoration-none"
+                        href="{% url 'portal:startup_directory' %}">
+                            Our Startups
+                        </a>
+
+                        <span class="mx-2">|</span>
+
+                        <a class="text-white text-decoration-none"
+                        href="{% url 'portal:team' %}">
+                            Our Team
+                        </a>
                     </p>
                 </div>
+                {% endif %}     
 
             </div>
+
+            <hr>
+
+            <div class="text-center">
+                © {% now "Y" %} AIC-CIIC. All Rights Reserved.
+            </div>
+
         </div>
     </footer>
 

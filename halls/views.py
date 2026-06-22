@@ -59,14 +59,13 @@ def admin_list(request):
     status = request.GET.get('status')
     if status:
         bookings = bookings.filter(status=status)
-    return render(request, 'halls/admin_list.html', {
-        'bookings': bookings,
-        'status_filter': status,
-        'statuses': HallBooking.Status.choices,
-        'calendar_bookings': bookings.filter(
-            status__in=['Pending', 'Approved']
-        )
-    })
+    return render(
+        request,
+        'halls/admin_list.html',
+        {
+            'bookings': bookings
+        }
+    )
 
 
 @admin_required

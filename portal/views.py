@@ -1,6 +1,5 @@
 import json
 from decimal import Decimal
-
 from django.core.paginator import Paginator
 from django.db.models import Count, Sum, Q
 from django.shortcuts import render
@@ -18,6 +17,8 @@ from services.models import ServiceRequest
 from startups.models import (
     Startup, StartupFunding, StartupAward, StartupIPR,
 )
+from startups.models import Startup
+from django.db.models import Count
 
 
 ACTIVE_STATUSES = ['active']
@@ -50,9 +51,6 @@ def about(request):
         'row2': row2,
     })
 
-
-from startups.models import Startup
-from django.db.models import Count
 
 def startup_directory(request):
 
@@ -163,7 +161,6 @@ def startup_directory(request):
 
         "startups": startups,
         "search": search,
-
         "total_startups": total_startups,
         "active_startups": active_startups,
         "incubated_startups": incubated_startups,
@@ -171,34 +168,25 @@ def startup_directory(request):
         "govt_grants": govt_grants,
         "private_investment": private_investment,
         "awards_count": awards_count,
-
         "jobs_created": jobs_created,
         "total_valuation": total_valuation,
         "sales_turnover": sales_turnover,
         "funds_raised": funds_raised,
-
         "active_count": active.count(),
         "graduated_count": graduated.count(),
         "incubated_total": active.count() + graduated.count(),
-
         "ipr_counts": ipr_counts,
-
         "mentorship_sessions": mentorship_sessions,
         "hall_events": hall_events,
         "lab_sessions": lab_sessions,
-
         "workshops": hall_events // 2,
         "networking_meetings": mentorship_sessions // 3,
         "total_meetings": mentorship_sessions + hall_events + lab_sessions,
-
         "partnerships": sponsors.count(),
         "builtup_area": 25000,
-
         "domains": domains,
-
         "domain_labels": json.dumps(domain_labels),
         "domain_counts": json.dumps(domain_counts),
-
         "sector_data_json": json.dumps(sector_data),
         "sponsors": sponsors,
     }
@@ -211,6 +199,12 @@ def startup_directory(request):
 
 def contact(request):
     return render(request, 'portal/contact.html')
+
+def team(request):
+    return render(
+        request,
+        "portal/team.html"
+    )
 
 
 @startup_required

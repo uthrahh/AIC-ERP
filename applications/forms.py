@@ -44,6 +44,7 @@ class ApplicationForm(forms.ModelForm):
         model = Application
 
         fields = [
+            'founder_title',
             'founder_name',
             'startup_name',
             'building_name',
@@ -64,14 +65,27 @@ class ApplicationForm(forms.ModelForm):
         widgets = {
             'founder_name': forms.TextInput(attrs={'class': 'form-control'}),
             'startup_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'founder_title': forms.Select(
+                attrs={'class': 'form-select'}
+            ),
+            'building_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Building Number & Name'
+                }
+            ),
 
-            'building_name': forms.TextInput(attrs={'class': 'form-control'}),
-
-            'street': forms.TextInput(attrs={'class': 'form-control'}),
+            'street': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Street'
+                }
+            ),
 
             'pincode': forms.TextInput(
                 attrs={
                     'class': 'form-control',
+                    'placeholder': 'Pincode',
                     'maxlength': 6
                 }
             ),
@@ -79,6 +93,7 @@ class ApplicationForm(forms.ModelForm):
             'area': forms.TextInput(
                 attrs={
                     'class': 'form-control',
+                    'placeholder': 'Area',
                     'readonly': True
                 }
             ),
@@ -86,6 +101,7 @@ class ApplicationForm(forms.ModelForm):
             'city': forms.TextInput(
                 attrs={
                     'class': 'form-control',
+                    'placeholder': 'City / District',
                     'readonly': True
                 }
             ),
@@ -93,11 +109,17 @@ class ApplicationForm(forms.ModelForm):
             'state': forms.TextInput(
                 attrs={
                     'class': 'form-control',
+                    'placeholder': 'State',
                     'readonly': True
                 }
             ),
 
-            'contact_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'contact_number': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': '9876543210'
+                }
+            ),
 
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
 
@@ -140,45 +162,13 @@ class ApplicationForm(forms.ModelForm):
 
         return value
 
-    def clean_contact_number(self):
-        value = self.cleaned_data['contact_number']
-
-        if not re.match(r'^[0-9]{10}$', value):
-            raise ValidationError(
-                'Contact number must be exactly 10 digits.'
-            )
-
-        return value
-
     def clean_pincode(self):
-        value = self.cleaned_data['pincode']
 
-        if not re.match(r'^[0-9]{6}$', value):
+        value = self.cleaned_data["pincode"]
+
+        if not re.match(r"^[0-9]{6}$", value):
             raise ValidationError(
-                'Pincode must be exactly 6 digits.'
-            )
-
-        import requests
-
-        try:
-            response = requests.get(
-                f'https://api.postalpincode.in/pincode/{value}',
-                timeout=5
-            )
-
-            data = response.json()
-
-            if (
-                data[0]['Status'] != 'Success'
-                or not data[0]['PostOffice']
-            ):
-                raise ValidationError(
-                    'Please enter a valid Indian pincode.'
-                )
-
-        except Exception:
-            raise ValidationError(
-                'Invalid pincode.'
+                "Pincode must be exactly 6 digits."
             )
 
         return value
@@ -212,6 +202,18 @@ class ApplicationForm(forms.ModelForm):
             )
 
         return value
+    
+    def clean_contact_number(self):
+        number = self.cleaned_data["contact_number"]
+
+        number = number.replace(" ", "")
+
+        if len(number) != 10:
+            raise forms.ValidationError(
+                "Enter a valid 10-digit mobile number."
+            )
+
+        return number
 
 class ApplicationReviewForm(forms.ModelForm):
 

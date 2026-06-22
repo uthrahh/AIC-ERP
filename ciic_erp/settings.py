@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'mentorship',
     'halls',
     'notifications',
+    'applicants',
 ]
 
 MIDDLEWARE = [
@@ -63,6 +64,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'portal.context_processors.site_settings',
+                "portal.context_processors.admin_notifications",
             ],
         },
     },
