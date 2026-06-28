@@ -1,307 +1,294 @@
-# AIC-CIIC ERP
+# AIC ERP
+## Project Documentation & Handover Guide
 
-Full-stack ERP for the **Centre for Innovation, Incubation & Entrepreneurship (AIC-CIIC)** — startup incubation management, service requests, lab scheduling, finance, feedback, and public portal.
+---
 
-## Tech Stack
+# Project Information
 
-- **Backend**: Django 6 + Python 3.11+
-- **Frontend**: Django Templates + Bootstrap 5 + Chart.js
-- **Database**: PostgreSQL (production) / SQLite (local dev default)
-- **Auth**: Django sessions + role-based access (Admin / Startup)
+## Project Title
 
-## Features
+Startup Incubation & Resource Management ERP (AIC–CIIC ERP)
 
-| Module | Capabilities |
-|--------|-------------|
-| Public Portal | About, Gallery, Startup Directory (140+), Dashboard, Application, Contact |
-| Applications | Submit, review, approve/reject, print with signatures, approval email |
-| Startup Portal | Profile setup, service requests, lab booking, billing, complaints, feedback |
-| Admin Portal | Create startups, manage workflows, finance, reports, history |
-| Finance | Invoices, partial payments, billing dashboard |
-| Audit | Activity logging for critical operations |
+## Description
 
-## Quick Start (Development)
+The Startup Incubation & Resource Management ERP is a centralized web-based platform developed to digitize the operational workflows of the Crescent Innovation & Incubation Council (CIIC). The system replaces manual processes carried out through spreadsheets, emails and WhatsApp with a role-based ERP that manages startup onboarding, incubation, resource allocation, laboratory and conference hall bookings, service requests, finance, mentorship and administrative operations.
 
-### 1. Prerequisites
+The platform is designed for multiple stakeholders including Public Users, Applicants, Startups, Mentors and Administrators.
 
-- Python 3.11 or 3.13
-- PostgreSQL 14+ (optional — SQLite works for local dev)
-- Git
+## Framework
 
-### 2. Clone & Install
+Django
+
+## Developed By
+
+Pavithra Uthrah R. K. - uthrahrk@gmail.com
+
+---
+
+# Technology Stack
+
+## Backend
+
+- Python 3
+- Django
+- Django ORM
+
+## Frontend
+
+- HTML5
+- Bootstrap 5
+- Django Templates
+- JavaScript
+
+## Database
+
+- PostgreSQL
+- SQLite (Development)
+
+## Libraries
+
+- Pillow
+- OpenPyXL
+- ReportLab
+- Pandas
+
+---
+
+# Features
+
+## Authentication
+
+- Role-based authentication
+- Admin login
+- Startup login
+- Mentor login
+- Applicant login
+
+## Startup Applications
+
+- Online application submission
+- Application review
+- Approval / Rejection
+- Status tracking
+- Printable application
+
+## Startup Management
+
+- Startup profiles
+- Founder information
+- Documents
+- Financial information
+- Team members
+- Awards
+- IPR
+- Social media
+- Bank details
+
+## Laboratory Management
+
+- Lab management
+- Equipment management
+- Equipment master import
+- Lab booking
+- Booking approval
+- Calendar view
+
+## Conference Hall
+
+- Hall management
+- Booking management
+- Calendar
+
+## Services
+
+- Service requests
+- Request tracking
+
+## Finance
+
+- Invoice models
+- Payment models
+- Billing foundation
+
+## Feedback
+
+- Complaints
+- Feedback management
+
+## Audit
+
+- Activity logging
+
+---
+
+# Project Structure
+
+```text
+AIC-ERP/
+│
+├── accounts/
+├── applications/
+├── audit/
+├── feedback/
+├── finance/
+├── halls/
+├── labs/
+├── mentors/
+├── mentorship/
+├── portal/
+├── services/
+├── startups/
+├── templates/
+├── static/
+├── media/
+├── manage.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
+# Installation Guide
+
+## 1. Clone Repository
 
 ```bash
-git clone <your-repo-url> AIC-CIIC-ERP
-cd AIC-CIIC-ERP
+git clone <repository-url>
+cd AIC-ERP
+```
+
+## 2. Create Virtual Environment
+
+Windows
+
+```bash
 python -m venv venv
-
-# Windows
 venv\Scripts\activate
-
-# macOS/Linux
-source venv/bin/activate
-
-pip install -r requirements.txt
 ```
 
-### 3. Environment Configuration
+Linux/macOS
 
 ```bash
-copy .env.example .env   # Windows
-# cp .env.example .env   # macOS/Linux
-```
-
-Edit `.env` — for quick local dev, defaults use SQLite (no PostgreSQL needed).
-
-### 4. Database Setup
-
-```bash
-python manage.py migrate
-python manage.py seed_data
-python manage.py collectstatic --noinput
-```
-
-### 5. Run Server
-
-```bash
-python manage.py runserver
-```
-
-Open **http://127.0.0.1:8000**
-
-### Default Login Credentials (after seed)
-
-| Role | Username | Password |
-|------|----------|----------|
-| Admin | `admin` | `admin12345` |
-| Demo Startup | `startup_demo` | `startup12345` |
-
-> Change all passwords before production deployment.
-
----
-
-## PostgreSQL Setup (Production / Staging)
-
-### 1. Create Database
-
-```sql
-CREATE DATABASE AIC-CIIC_erp;
-CREATE USER AIC-CIIC_user WITH PASSWORD 'strong_password_here';
-GRANT ALL PRIVILEGES ON DATABASE AIC-CIIC_erp TO AIC-CIIC_user;
-```
-
-### 2. Update `.env`
-
-```env
-DEBUG=False
-SECRET_KEY=generate-a-long-random-secret-key
-ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
-
-DB_ENGINE=django.db.backends.postgresql
-DB_NAME=AIC-CIIC_erp
-DB_USER=AIC-CIIC_user
-DB_PASSWORD=strong_password_here
-DB_HOST=localhost
-DB_PORT=5432
-
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
-DEFAULT_FROM_EMAIL=AIC-CIIC@yourdomain.com
-```
-
-### 3. Migrate & Seed
-
-```bash
-python manage.py migrate
-python manage.py seed_data
-python manage.py createsuperuser   # optional extra superuser
-```
-
----
-
-## Production Deployment (Linux + Nginx + Gunicorn)
-
-### 1. Server Preparation
-
-```bash
-sudo apt update
-sudo apt install python3-pip python3-venv nginx postgresql postgresql-contrib
-```
-
-### 2. Deploy Application
-
-```bash
-sudo mkdir -p /var/www/AIC-CIIC-erp
-sudo chown $USER:$USER /var/www/AIC-CIIC-erp
-cd /var/www/AIC-CIIC-erp
-git clone <repo> .
 python3 -m venv venv
 source venv/bin/activate
+```
+
+## 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
-cp .env.example .env
-# Edit .env with production values
+```
+
+## 4. Configure Database
+
+Update database configuration in:
+
+```
+settings.py
+```
+
+or
+
+```
+.env
+```
+
+## 5. Apply Migrations
+
+```bash
+python manage.py makemigrations
 python manage.py migrate
-python manage.py seed_data
-python manage.py collectstatic --noinput
-mkdir -p media logs
 ```
 
-### 3. Gunicorn Systemd Service
-
-Create `/etc/systemd/system/AIC-CIIC-erp.service`:
-
-```ini
-[Unit]
-Description=AIC-CIIC ERP Gunicorn
-After=network.target
-
-[Service]
-User=www-data
-Group=www-data
-WorkingDirectory=/var/www/AIC-CIIC-erp
-Environment="PATH=/var/www/AIC-CIIC-erp/venv/bin"
-ExecStart=/var/www/AIC-CIIC-erp/venv/bin/gunicorn AIC-CIIC_erp.wsgi:application \
-    --bind 127.0.0.1:8001 --workers 3 --timeout 120
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-```
+## 6. Create Superuser
 
 ```bash
-sudo systemctl daemon-reload
-sudo systemctl enable AIC-CIIC-erp
-sudo systemctl start AIC-CIIC-erp
+python manage.py createsuperuser
 ```
 
-### 4. Nginx Configuration
-
-Create `/etc/nginx/sites-available/AIC-CIIC-erp`:
-
-```nginx
-server {
-    listen 80;
-    server_name yourdomain.com;
-
-    client_max_body_size 10M;
-
-    location /static/ {
-        alias /var/www/AIC-CIIC-erp/staticfiles/;
-    }
-
-    location /media/ {
-        alias /var/www/AIC-CIIC-erp/media/;
-    }
-
-    location / {
-        proxy_pass http://127.0.0.1:8001;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-```
+## 7. Run the Application
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/AIC-CIIC-erp /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl reload nginx
+python manage.py runserver 8080
 ```
 
-### 5. SSL (Let's Encrypt)
+Open:
 
-```bash
-sudo apt install certbot python3-certbot-nginx
-sudo certbot --nginx -d yourdomain.com
 ```
-
-### 6. Backup Strategy
-
-**Database (daily cron):**
-
-```bash
-pg_dump -U AIC-CIIC_user AIC-CIIC_erp > /backups/AIC-CIIC_erp_$(date +%Y%m%d).sql
-```
-
-**Media files:**
-
-```bash
-tar -czf /backups/AIC-CIIC_media_$(date +%Y%m%d).tar.gz /var/www/AIC-CIIC-erp/media/
+http://127.0.0.1:8080
 ```
 
 ---
 
-## Project Structure
+# Running the System
 
-```
-AIC-CIIC-ERP/
-├── AIC-CIIC_erp/          # Project settings & root URLs
-├── accounts/          # Authentication & users
-├── startups/          # Startup profiles & documents
-├── applications/      # Incubation applications
-├── services/          # Service requests
-├── labs/              # Lab scheduling
-├── finance/           # Invoices & payments
-├── feedback/          # Complaints & feedback
-├── content/           # Gallery, CMS content
-├── reports/           # Analytics & reports
-├── audit/             # Audit logging
-├── portal/            # Public & dashboard pages
-├── templates/         # HTML templates
-├── static/            # CSS, JS
-├── media/             # Uploaded files
-└── docs/              # Architecture & wireframes
-```
-
-## Key URLs
-
-| URL | Description |
-|-----|-------------|
-| `/` | Public home |
-| `/about/` | About AIC-CIIC |
-| `/startups/` | Startup directory |
-| `/dashboard/` | Public stats dashboard |
-| `/applications/submit/` | Application form |
-| `/accounts/login/` | Login |
-| `/AIC-CIIC-admin/` | Admin dashboard |
-| `/startup/` | Startup dashboard |
-| `/admin/` | Django superuser admin |
-
-## Running Tests
+Start the development server
 
 ```bash
-python manage.py test
+python manage.py runserver 8080
 ```
 
-## Documentation
+Useful commands
 
-- [System Architecture](docs/ARCHITECTURE.md)
-- [UI Wireframes](docs/WIREFRAMES.md)
+```bash
+python manage.py check
+python manage.py makemigrations
+python manage.py migrate
+python manage.py shell
+python manage.py collectstatic
+python manage.py createsuperuser
+python manage.py import_equipment
+```
 
-## Admin Workflows
+---
 
-1. **Create Startup**: Admin → Create Startup → generates ID + login credentials
-2. **Review Application**: Applications → Review → Approve sends email
-3. **Service Request**: Startup submits → Admin updates status → Closed → optional feedback
-4. **Lab Booking**: Startup books → Admin approves/rejects
-5. **Finance**: Admin creates invoice → records payments → startup views billing
+# Modules
 
-## Security Checklist (Production)
+- Public Website
+- User & Role Management
+- Startup Applications
+- Startup Management
+- Laboratory Management
+- Equipment Management
+- Conference Hall Management
+- Service Management
+- Finance
+- Feedback & Complaints
+- Audit Logs
 
-- [ ] Set `DEBUG=False`
-- [ ] Use strong `SECRET_KEY`
-- [ ] Configure PostgreSQL with limited-privilege user
-- [ ] Enable HTTPS
-- [ ] Change default seed passwords
-- [ ] Configure SMTP for real emails
-- [ ] Set up automated backups
-- [ ] Restrict `/admin/` access by IP if needed
+---
 
-## License
+# Completed
 
-Proprietary — AIC-CIIC Internal Use
+- Authentication & RBAC
+- Public website
+- Startup application workflow
+- Startup management
+- Lab booking
+- Equipment management
+- Equipment Excel import
+- Conference hall booking
+- Service requests
+- Audit logging
+- Basic finance models
+- Dashboard foundation
+
+---
+
+# Pending
+
+- Payment gateway integration
+- Automated billing
+- Quarterly financial updates
+- Mentor scheduling workflow
+- Advanced analytics dashboards
+- Report generation (PDF/Excel)
+- Email reminder scheduler
+- Dynamic tariff engine
+- Production deployment
+
+---
+
+# License
+
+This project was developed during an internship at the Crescent Innovation & Incubation Council (CIIC) for internal startup incubation and resource management.
